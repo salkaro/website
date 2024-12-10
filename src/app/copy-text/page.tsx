@@ -36,9 +36,9 @@ export default function CopyTextPage() {
 
     return (
         <div className="text-neonCyan min-h-screen flex flex-col justify-center items-center gap-8">
-            <div className="text-lg flex flex-row justify-center items-center gap-4">
+            <div className="text-lg flex flex-col sm:flex-row justify-center items-center gap-4">
                 <animated.input
-                    className="border px-4 py-2 rounded-lg bg-darkBlue border-white text-sm h-[40px]"
+                    className="border px-4 py-2 rounded-lg bg-darkBlue whitespace-nowrap border-black text-sm h-[40px] focus:ring-0 focus:border-transparent focus:outline-none"
                     value={text || "No text to copy"}
                     readOnly
                     style={shrinkAnimation} // Apply shrink animation
