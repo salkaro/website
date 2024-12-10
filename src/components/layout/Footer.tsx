@@ -20,7 +20,6 @@ const FooterColumn = ({ children }: Readonly<{ children: React.ReactNode }>) => 
     )
 }
 
-
 const Footer = () => {
     return (
         <footer className='bg-darkGrey text-white grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 p-16 gap-8'>
