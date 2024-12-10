@@ -1,6 +1,7 @@
 import { Metadata } from "next";
 
 import "@/styles/glare-text.css"
+import Layout from "@/components/layout/Layout";
 
 export const metadata: Metadata = {
     title: "Salkaro",
@@ -22,8 +23,10 @@ export const metadata: Metadata = {
 
 export default function Home() {
     return (
-        <div className="text-neonCyan min-h-screen flex flex-col justify-center items-center gap-8">
-            <h1 className="text-4xl glare-text">Salkaro - For a curious mind</h1>
-        </div>
+        <Layout>
+            <div className="">
+                Salkaro - For a curious mind
+            </div>
+        </Layout>
     );
 }

@@ -11,6 +11,8 @@ export default {
             colors: {
                 darkBlue: "#090a25",
                 deepBlue: "#000011",
+                darkGrey: "#1c1c1c",
+                offBlack: "#070707",
                 neonCyan: "#00FFFF",
                 neonOrange: "#FA4616",
                 neonGreen: "#00ffa5",
