@@ -1,0 +1,70 @@
+/* Ensure the SVG is properly sized */
+svg[data-loader-checked] {
+    width: 150px;
+    height: 150px;
+    display: block;
+}
+
+/* Animation for the circle outline (reversed) */
+svg[data-loader-checked] circle {
+    stroke-dasharray: 480px, 480px; /* Define the total length of the circle path */
+    stroke-dashoffset: 480px; /* Start with the partial circle visible (drawing from the inside) */
+    stroke: var(--checked-color); /* Stroke color for the circle */
+    stroke-width: 10;
+    fill: none;
+    animation: checkmark-circle-reversed 0.6s ease-in-out forwards; /* Reverse the animation */
+}
+
+/* Animation for the checkmark (tick) path */
+svg[data-loader-checked] polyline {
+    stroke-dasharray: 100px, 100px; /* Define the dash size for the tick */
+    stroke-dashoffset: 200px; /* Initial offset to hide the tick */
+    stroke: var(--tick-color); /* Color of the tick */
+    stroke-width: 16;
+    stroke-linecap: round;
+    stroke-linejoin: round;
+    animation: checkmark 0.25s ease-in-out 0.7s forwards; /* Animate the checkmark path */
+}
+
+/* Animation for the colored circle fill */
+svg[data-loader-checked] circle#colored {
+    fill: var(--checked-color); /* Fill the circle with the color */
+    opacity: 0; /* Initially hidden */
+    animation: colored-circle 0.3s ease-in-out 0.4s forwards; /* Fade-in the circle fill */
+}
+
+/* Keyframe for animating the circle outline (reversed) */
+@keyframes checkmark-circle-reversed {
+    0% {
+        stroke-dashoffset: 480px; /* Start with the partial stroke visible */
+    }
+    100% {
+        stroke-dashoffset: 0px; /* End with the full circle path visible */
+    }
+}
+
+/* Keyframe for animating the checkmark */
+@keyframes checkmark {
+    0% {
+        stroke-dashoffset: 200px; /* Start with the checkmark hidden */
+    }
+    100% {
+        stroke-dashoffset: 0px; /* End with the checkmark fully drawn */
+    }
+}
+
+/* Keyframe for animating the colored circle fill */
+@keyframes colored-circle {
+    0% {
+        opacity: 0; /* Start with the colored circle invisible */
+    }
+    100% {
+        opacity: 1; /* End with the colored circle visible */
+    }
+}
+
+/* Custom properties for color */
+:root {
+    --checked-color: #2ecc71; /* Green color for the checkmark */
+    --tick-color: #fff; /* White color for the tick */
+}
