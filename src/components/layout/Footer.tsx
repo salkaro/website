@@ -26,7 +26,7 @@ const Footer = () => {
             {/* About Section */} 
             <FooterColumn>
                 <FooterLink text="About Us" href="/about" />
-                <FooterLink text="Our Team" href="/team" />
+                <FooterLink text="Attributions" href="/attributions" />
                 <FooterLink text="Careers" href="/careers" />
                 <FooterLink text="Privacy Policy" href="/privacy" />
             </FooterColumn>
@@ -49,7 +49,7 @@ const Footer = () => {
 
             {/* Social Media Section */}
             <FooterColumn>
-                <FooterLink target="_blank" text="Facebook" href="https://www.facebook.com/yourpage" />
+                <FooterLink target="_blank" text="Github" href="https://github.com/salkaro" />
                 <FooterLink target="_blank" text="Twitter" href="https://www.twitter.com/yourprofile" />
                 <FooterLink target="_blank" text="LinkedIn" href="https://www.linkedin.com/yourprofile" />
                 <FooterLink target="_blank" text="Instagram" href="https://www.instagram.com/yourprofile" />

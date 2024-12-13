@@ -65,6 +65,6 @@ svg[data-loader-checked] circle#colored {
 
 /* Custom properties for color */
 :root {
-    --checked-color: #2ecc71; /* Green color for the checkmark */
-    --tick-color: #fff; /* White color for the tick */
+    --checked-color: #1c1c1c; /* Green color for the checkmark original:#2ecc71*/
+    --tick-color: #fff; /* White color for the tick original:#fff*/
 }
