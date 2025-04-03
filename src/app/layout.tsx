@@ -1,6 +1,6 @@
-import type { Metadata } from "next";
-import { Lato } from 'next/font/google';
 import Head from 'next/head';
+import { Lato } from 'next/font/google';
+import type { Metadata } from "next";
 
 const lato = Lato({ weight: '900', style: 'normal', subsets: ['latin'] });
 
@@ -50,8 +50,6 @@ export default function RootLayout({
                 {/* External JS for CodeMirror */}
                 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.1/codemirror.min.js" defer></script>
                 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.1/mode/javascript/javascript.min.js" defer></script>
-                <script async src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-6066589868368367" crossOrigin="anonymous"></script>
-                <meta name="google-adsense-account" content="ca-pub-6066589868368367"></meta>
             </Head>
             <body className={`${lato.className} antialiased bg-offBlack text-white`}>
                 {children}
