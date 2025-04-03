@@ -13,7 +13,7 @@ export const metadata: Metadata = {
         url: "https://salkaro.com",
         images: [
             {
-                url: "https://i.imgur.com/JhD96jv.png",
+                url: "https://i.imgur.com/hiNM6Ht.png",
                 width: 2496,
                 height: 1221,
                 alt: "Is This Website Down? Check Website Status Instantly - Salkaro",

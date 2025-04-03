@@ -4,7 +4,7 @@ import type { Metadata } from "next";
 
 const lato = Lato({ weight: '900', style: 'normal', subsets: ['latin'] });
 
-import '../styles/globals.css';
+import '@/styles/globals.css';
 
 export const metadata: Metadata = {
     title: "Salkaro",
@@ -15,7 +15,7 @@ export const metadata: Metadata = {
         url: "https://salkaro.com",
         images: [
             {
-                url: "https://i.imgur.com/JhD96jv.png",
+                url: "https://i.imgur.com/hiNM6Ht.png",
                 width: 2496,
                 height: 1221,
                 alt: "Is This Website Down? Check Website Status Instantly - Salkaro",
@@ -51,7 +51,7 @@ export default function RootLayout({
                 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.1/codemirror.min.js" defer></script>
                 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.1/mode/javascript/javascript.min.js" defer></script>
             </Head>
-            <body className={`${lato.className} antialiased bg-offBlack text-white`}>
+            <body className={`${lato.className} antialiased bg-offBlack text-white overflow-x-hidden scrollbar-hide`}>
                 {children}
             </body>
         </html>
