@@ -1,14 +1,14 @@
 "use client";
 
 // External Imports
-import { useState } from 'react';
+import { useState, Suspense } from 'react';
 import { useSearchParams } from 'next/navigation';
 import { useSpring, animated } from '@react-spring/web';
 
 // Local Imports
 import ButtonToCircle from '@/components/copy-text/ButtonToCircle';
 
-export default function CopyTextPage() {
+function CopyTextComponent() {
     const searchParams = useSearchParams();
     const text = searchParams.get("p");
     const [shrink, setShrink] = useState(false);
@@ -51,5 +51,14 @@ export default function CopyTextPage() {
                 </div>
             </div>
         </div>
+    );
+}
+
+
+export default function CopyTextPage() {
+    return (
+        <Suspense fallback={<p>Loading...</p>}>
+            <CopyTextComponent />
+        </Suspense>
     );
 }

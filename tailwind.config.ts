@@ -12,6 +12,7 @@ export default {
                 darkBlue: "#090a25",
                 deepBlue: "#000011",
                 darkGrey: "#1c1c1c",
+                consoleGrey: "#1e1e1e",
                 hoverDarkGrey: "#191919",
                 lightGrey: "#4c4c4c",
                 hoverLightGrey: "#393939",

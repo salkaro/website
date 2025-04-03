@@ -34,10 +34,10 @@ export default function SubjectMaterial() {
     const [material, setMaterial] = useState([]);  // State to store the material data
 
     useEffect(() => {
-        if (subject) return;  // Wait for the subject to be available
+        if (!subject) return;  // Wait for the subject to be available
 
         // Fetch the study material for the subject from the API
-        fetch(`/api/materials/${subject}`)
+        fetch(`/api/materials?url=${subject}`)
             .then((res) => res.json())
             .then((data) => setMaterial(data))  // Update state with the fetched data
             .catch((error) => console.error('Error fetching materials:', error));  // Handle error if any
@@ -46,7 +46,7 @@ export default function SubjectMaterial() {
 
     return (
         <Layout>
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-3xl p-16#">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-3xl p-16">
                 {material.length === 0 ? (
                     <LoadingSpinner />  // Show loading text if data is still being fetched
                 ) : (
