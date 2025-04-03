@@ -9,6 +9,19 @@ import '../styles/globals.css';
 export const metadata: Metadata = {
     title: "Salkaro",
     description: "Salkaro is your go-to platform for exploring the exciting world of programming, electronics, and simulations. Dive into hands-on projects, tutorials, and open-source resources that make learning and creating tech innovations accessible and fun. Whether you're a beginner or an expert, Salkaro offers tools and inspiration to fuel your next big idea.",
+    openGraph: {
+        title: "Salkaro",
+        description: "Salkaro is your go-to platform for exploring the exciting world of programming, electronics, and simulations. Dive into hands-on projects, tutorials, and open-source resources that make learning and creating tech innovations accessible and fun. Whether you're a beginner or an expert, Salkaro offers tools and inspiration to fuel your next big idea.",
+        url: "https://salkaro.com",
+        images: [
+            {
+                url: "https://i.imgur.com/JhD96jv.png",
+                width: 2496,
+                height: 1221,
+                alt: "Is This Website Down? Check Website Status Instantly - Salkaro",
+            }
+        ]
+    },
     robots: {
         index: true,
         follow: true,
