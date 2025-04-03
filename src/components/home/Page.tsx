@@ -6,6 +6,7 @@ import { GrGamepad } from "react-icons/gr";
 import { FaCode } from "react-icons/fa";
 import { LuBookText } from "react-icons/lu";
 import { FaGithubAlt } from "react-icons/fa";
+import { IoGlobeOutline } from "react-icons/io5";
 
 const Page = () => {
     return (
@@ -30,6 +31,9 @@ const Page = () => {
             </div>
             <div className='absolute bottom-10 right-10'>
                 <Bubble tooltipText="Open Source Repo" icon={<FaGithubAlt />} link="https://github.com/salkaro" />
+            </div>
+            <div className='absolute top-1/2 left-10'>
+                <Bubble tooltipText="Check A Websites Status" icon={<IoGlobeOutline />} link="https://isitdown.salkaro.com/" />
             </div>
         </div>
     )
