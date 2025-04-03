@@ -4,9 +4,6 @@ import Link from 'next/link'
 const NavbarLinks = () => {
     return (
         <>
-            <Link href="https://isitdown.salkaro.com" target="_blank" className="hover:text-gray-400 transition duration-200">
-                Is it down
-            </Link>
             <Link href="/coding-learn" className="hover:text-gray-400 transition duration-200">
                 Learn To Code
             </Link>

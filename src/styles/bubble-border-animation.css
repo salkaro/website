@@ -1,0 +1,24 @@
+@keyframes borderAnimation {
+  0% {
+    transform: rotate(0deg);
+    width: 0%;
+  }
+  50% {
+    width: 70%;  /* Cover 5/7th of the circle */
+  }
+  100% {
+    transform: rotate(360deg);
+    width: 0%;  /* Return to original state */
+  }
+}
+
+.animate-border {
+  position: absolute;
+  top: 0;
+  left: 50%;
+  width: 0%;
+  height: 100%;
+  border-top: 4px solid #3498db; /* Blue color */
+  transform-origin: left center;
+  animation: borderAnimation 3s linear infinite;
+}

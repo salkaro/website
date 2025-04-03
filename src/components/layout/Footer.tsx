@@ -50,8 +50,8 @@ const Footer = () => {
             {/* Social Media Section */}
             <FooterColumn>
                 <FooterLink target="_blank" text="Github" href="https://github.com/salkaro" />
-                <FooterLink target="_blank" text="Twitter" href="https://www.twitter.com/yourprofile" />
-                <FooterLink target="_blank" text="LinkedIn" href="https://www.linkedin.com/yourprofile" />
+                <FooterLink target="_blank" text="Twitter" href="https://x.com/_itsnickjames" />
+                <FooterLink target="_blank" text="LinkedIn" href="https://www.linkedin.com/in/nickjames-info/" />
                 <FooterLink target="_blank" text="Instagram" href="https://www.instagram.com/yourprofile" />
             </FooterColumn>
         </footer>
