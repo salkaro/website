@@ -51,7 +51,7 @@ export default function RootLayout({
                 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.1/codemirror.min.js" defer></script>
                 <script src="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.63.1/mode/javascript/javascript.min.js" defer></script>
             </Head>
-            <body className={`${lato.className} antialiased bg-offBlack text-white overflow-x-hidden scrollbar-hide`}>
+            <body className={`${lato.className} antialiased bg-offBlack text-white overflow-x-hidden scrollbar-hide w-full`}>
                 {children}
             </body>
         </html>

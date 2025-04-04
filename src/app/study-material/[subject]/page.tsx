@@ -30,39 +30,44 @@ export default function SubjectMaterial() {
 
     // Extract the subject name from the URL path (assuming the URL is like /study-material/{subject})
     const subject = pathname?.split('/')[2];
+    const [loading, setLoading] = useState(true);  // State to manage loading status
 
-    const [material, setMaterial] = useState([]);  // State to store the material data
+    const [material, setMaterial] = useState<{
+        topic: string;
+        pdfs: string[];
+    }[]>([]);
 
     useEffect(() => {
         if (!subject) return;  // Wait for the subject to be available
-
+        setLoading(true);
         // Fetch the study material for the subject from the API
-        fetch(`/api/materials?url=${subject}`)
+        fetch(`/api/materials?subject=${subject}`)
             .then((res) => res.json())
             .then((data) => setMaterial(data))  // Update state with the fetched data
             .catch((error) => console.error('Error fetching materials:', error));  // Handle error if any
+        setLoading(false)
     }, [subject]);  // Re-fetch data whenever the subject changes
-
 
     return (
         <Layout>
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4 max-w-3xl p-16">
-                {material.length === 0 ? (
-                    <LoadingSpinner />  // Show loading text if data is still being fetched
-                ) : (
-                    // Display topics and PDFs dynamically
-                    material.map((item: { topic: string, pdfs: string[] }) => (
-                        <div key={item.topic} className='flex flex-col items-center px-4 gap-2 '>
+                {loading ? (
+                    <LoadingSpinner /> // Show loading text if data is still being fetched
+                ) : material.length > 0 ? ( // Remove extra curly braces
+                    material.map((item: { topic: string; pdfs: string[] }) => (
+                        <div key={item.topic} className="flex flex-col items-center px-4 gap-2">
                             <h3 className="text-xl font-bold">{item.topic}</h3>
                             {item.pdfs.map((pdf) => (
                                 <MaterialLink
                                     key={pdf}
                                     pdf={pdf}
-                                    url={`/study-material/${subject}/${item.topic}/${pdf}`}  // Dynamic link to the PDF
+                                    url={`/study-material/${subject}/${item.topic}/${pdf}`}
                                 />
                             ))}
                         </div>
                     ))
+                ) : (
+                    <p className="text-gray-500 text-center col-span-2">No materials available yet.</p>
                 )}
             </div>
         </Layout>

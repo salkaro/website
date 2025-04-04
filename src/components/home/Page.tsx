@@ -6,6 +6,7 @@ import { GrGamepad } from "react-icons/gr";
 import { FaCode } from "react-icons/fa";
 import { LuBookText } from "react-icons/lu";
 import { FaGithubAlt } from "react-icons/fa";
+import { MdOutlineSell } from "react-icons/md";
 import { IoGlobeOutline } from "react-icons/io5";
 
 const Page = () => {
@@ -21,7 +22,7 @@ const Page = () => {
                 <Bubble tooltipText="Visit Games" icon={<GrGamepad />} link="https://games.salkaro.com" />
             </div>
             <div className='absolute top-1/4 right-10'>
-                <Bubble tooltipText="Learn To Code" icon={<FaCode />} link="/coding-learn" />
+                <Bubble tooltipText="Write Code Online" icon={<FaCode />} link="/write-code" tooltipLeft />
             </div>
             <div className='absolute top-1/3 left-1/2 transform -translate-x-1/2'>
                 <Bubble tooltipText="Study Materials" icon={<LuBookText />} link="/study-material" />
@@ -30,10 +31,13 @@ const Page = () => {
                 <Bubble tooltipText="Code Demos" icon={<FiCodepen className='text-xl' />} link="/code-demos" />
             </div>
             <div className='absolute bottom-10 right-10'>
-                <Bubble tooltipText="Open Source Repo" icon={<FaGithubAlt />} link="https://github.com/salkaro" />
+                <Bubble tooltipText="Open Source Repo" icon={<FaGithubAlt />} link="https://github.com/salkaro" tooltipLeft />
             </div>
-            <div className='absolute top-1/2 left-10'>
+            <div className='absolute top-1/2 mt-6 sm:mt-0 left-10'>
                 <Bubble tooltipText="Check A Websites Status" icon={<IoGlobeOutline />} link="https://isitdown.salkaro.com/" />
+            </div>
+            <div className='absolute top-2/3 mt-6 sm:mt-0 right-40'>
+                <Bubble tooltipText="Automate eBay Selling" icon={<MdOutlineSell />} link="https://flippify.io?ref=salkaro" tooltipLeft />
             </div>
         </div>
     )

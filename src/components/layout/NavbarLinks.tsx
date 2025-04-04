@@ -4,8 +4,8 @@ import Link from 'next/link'
 const NavbarLinks = () => {
     return (
         <>
-            <Link href="/coding-learn" className="hover:text-gray-400 transition duration-200">
-                Learn To Code
+            <Link href="/write-code" className="hover:text-gray-400 transition duration-200">
+                Code Online
             </Link>
             <Link href="/study-material" className="hover:text-gray-400 transition duration-200">
                 Study Materials

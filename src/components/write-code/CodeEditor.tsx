@@ -5,7 +5,6 @@ import { Editor } from "@monaco-editor/react";
 import { useState, useEffect } from "react";
 
 // Local Imports
-import Instructions from "./Instructions";
 import OutputConsole from "./OutputConsole";
 import ResizeableGrid from "@/components/layout/ResizeableGrid";
 
@@ -113,13 +112,12 @@ document["output-console"].textContent = "".join(sys.stdout.output)
             <div className="h-screen w-full">
                 <ResizeableGrid
                     rows={1}
-                    cols={2}
+                    cols={1}
                     minSize={200}
                     cellClassName=""
                     initialHeights={["100%"]}
-                    initialWidths={["50%", "50%"]}
+                    initialWidths={["100%"]}
                     cellContent={[
-                        <Instructions key="instructions" />,
                         <ResizeableGrid
                             key="resizeable-grid"
                             rows={2}

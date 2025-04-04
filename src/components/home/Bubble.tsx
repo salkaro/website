@@ -13,24 +13,31 @@ interface BubbleProps {
     tooltipText: string;
     link: string;
     icon: JSX.Element;
+    tooltipLeft?: boolean;
 }
 
-const Bubble: React.FC<BubbleProps> = ({ tooltipText, link, icon }) => {
+const Bubble: React.FC<BubbleProps> = ({ tooltipText, link, icon, tooltipLeft }) => {
     const router = useRouter();
 
     function handleClick() {
-        router.push(link);
+        if (link.startsWith("/")) {
+            router.push(link);
+        } else {
+            window.open(link, "_blank");
+        }
     }
 
     return (
         <div className="relative group">
             {/* Tooltip */}
-            <div className="pointer-events-none absolute left-full top-1/2 border-white/60 px-3 py-2 bg-white/20 transform -translate-y-1/2 -translate-x-4 opacity-0 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 text-sm rounded shadow-md whitespace-nowrap ml-2">
+            <div
+                onClick={handleClick}
+                className={`transform -translate-y-1/2 ${tooltipLeft ? "translate-x-4 right-full mr-2" : "-translate-x-4 left-full ml-2"} select-none absolute top-1/2 border-white/60 hover:bg-white/40 px-3 py-2 bg-white/20 opacity-0 group-hover:opacity-100 group-hover:translate-x-0 transition-all duration-300 text-sm rounded shadow-md whitespace-nowrap`}
+            >
                 {tooltipText}
             </div>
             {/* Bubble */}
             <div
-                onClick={handleClick}
                 className="relative rounded-full hover:scale-110 transition-all duration-500 ease-in-out hover:cursor-pointer"
             >
                 {/* Animated top border */}
