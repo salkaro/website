@@ -34,17 +34,17 @@ const Footer = () => {
             {/* Resources Section */}
             <FooterColumn>
                 <FooterLink text="Blog" href="/blog" />
-                <FooterLink text="Help Center" href="/help" />
-                <FooterLink text="FAQs" href="/faq" />
                 <FooterLink text="Documentation" href="/docs" />
+                <FooterLink text="FAQs" href="/faq" />
+                <FooterLink text="Timer" href="https://timer.salkaro.com" />
             </FooterColumn>
 
-            {/* Contact Section */}
+            {/* Links Section */}
             <FooterColumn>
-                <FooterLink text="Contact Us" href="/contact" />
-                <FooterLink text="Support" href="/support" />
-                <FooterLink text="Request a Demo" href="/demo" />
-                <FooterLink text="Sales Inquiries" href="/sales" />
+                <FooterLink text="Is It Down?" href="https://isitdown.salkaro.com" />
+                <FooterLink text="Games" href="https://games.salkaro.com" />
+                <FooterLink text="Study" href="https://salkaro.com/study-materials" />
+                <FooterLink text="Code Demos" href="https://salkaro.com/code-demos" />
             </FooterColumn>
 
             {/* Social Media Section */}
@@ -52,7 +52,7 @@ const Footer = () => {
                 <FooterLink target="_blank" text="Github" href="https://github.com/salkaro" />
                 <FooterLink target="_blank" text="Twitter" href="https://x.com/_itsnickjames" />
                 <FooterLink target="_blank" text="LinkedIn" href="https://www.linkedin.com/in/nickjames-info/" />
-                <FooterLink target="_blank" text="Instagram" href="https://www.instagram.com/yourprofile" />
+                <FooterLink target="_blank" text="Instagram" href="https://www.instagram.com/_flippify" />
             </FooterColumn>
         </footer>
     )

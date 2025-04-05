@@ -7,6 +7,7 @@ import { FaCode } from "react-icons/fa";
 import { LuBookText } from "react-icons/lu";
 import { FaGithubAlt } from "react-icons/fa";
 import { MdOutlineSell } from "react-icons/md";
+import { MdOutlineTimer } from "react-icons/md";
 import { IoGlobeOutline } from "react-icons/io5";
 
 const Page = () => {
@@ -36,8 +37,11 @@ const Page = () => {
             <div className='absolute top-1/2 mt-6 sm:mt-0 left-10'>
                 <Bubble tooltipText="Check A Websites Status" icon={<IoGlobeOutline />} link="https://isitdown.salkaro.com/" />
             </div>
-            <div className='absolute top-2/3 mt-6 sm:mt-0 right-20 sm:right-40'>
+            <div className='absolute top-2/3 right-20 sm:right-40'>
                 <Bubble tooltipText="Automate eBay Selling" icon={<MdOutlineSell />} link="https://flippify.io?ref=salkaro" tooltipLeft />
+            </div>
+            <div className='absolute top-16 right-0 sm:right-40'>
+                <Bubble tooltipText="Online Timer" icon={<MdOutlineTimer />} link="https://timer.salkaro.com" tooltipLeft />
             </div>
         </div>
     )
