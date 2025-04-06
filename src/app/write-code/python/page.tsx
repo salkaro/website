@@ -1,15 +1,15 @@
 // External Imports
-
 import { Metadata } from "next";
 
+
 // Local Imports
-import LanguageSelection from "@/components/write-code/LanguageSelection";
+import CodeEditor from "@/components/write-code/CodeEditor";
 import Layout from "@/components/layout/Layout";
 
 
 export const metadata: Metadata = {
-    title: "Write Code Online | Salkaro",
-    description: "Access Salkaro's online code editor to write, run, and test code in multiple programming languages, including Python. Ideal for developers, learners, and anyone wanting to practice coding in a browser-based environment.",
+    title: "Python Online | Salkaro",
+    description: "Try Python coding directly in your browser with Salkaro's online Python code editor. Write, test, and debug Python code in an interactive environment without any setup required. Perfect for beginners and experienced developers alike.",
     robots: {
         index: true,
         follow: true,
@@ -26,12 +26,11 @@ export const metadata: Metadata = {
 }
 
 
-export default function WriteCode() {
+export default function PythonCode() {
     return (
         <Layout>
-            <div>
-                <LanguageSelection name="Python" link="./write-code/python" />
-            </div>
+            <CodeEditor />
         </Layout>
     );
 }
+

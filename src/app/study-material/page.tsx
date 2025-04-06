@@ -3,6 +3,27 @@ import Link from "next/link";
 
 // Local Imports
 import Layout from "@/components/layout/Layout";
+import { Metadata } from "next";
+
+
+export const metadata: Metadata = {
+    title: "Study Material | Salkaro",
+    description: "Access a wide range of study materials for A-Levels, GCSEs, and SATs on Salkaro. Our resources include practice questions and notes for Physics, Maths, and Computer Science to help you succeed in your exams and assessments.",
+    robots: {
+        index: true,
+        follow: true,
+        nocache: true,
+        googleBot: {
+            index: true,
+            follow: true,
+            noimageindex: true,
+            'max-video-preview': -1,
+            'max-image-preview': 'large',
+            'max-snippet': -1,
+        },
+    },
+}
+
 
 
 interface SubjectLinkProps {

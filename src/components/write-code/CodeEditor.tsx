@@ -3,13 +3,16 @@
 // External Imports
 import { Editor } from "@monaco-editor/react";
 import { useState, useEffect } from "react";
+import { CiGrid2H } from "react-icons/ci";
+import { CiGrid2V } from "react-icons/ci";
 
 // Local Imports
-import OutputConsole from "./OutputConsole";
 import ResizeableGrid from "@/components/layout/ResizeableGrid";
+import OutputConsole from "./OutputConsole";
 
 // Styles
 import 'react-resizable/css/styles.css';
+import { getCache, setCache } from "@/utils/cache-helpers";
 
 
 declare global {
@@ -18,27 +21,54 @@ declare global {
     }
 }
 
-const TutorialCodeEditor = () => {
+const CodeEditor = () => {
     const [code, setCode] = useState<string>("print('Hello World!')"); // Code from the editor
     const [output, setOutput] = useState<string>(""); // Output of the Python code
     const [isRunning, setIsRunning] = useState<boolean>(false); // Track if code is running
+    const cacheKey = "code-python";
+
+    const [gridVertical, setGridVertical] = useState<boolean>(false);
 
     useEffect(() => {
-        // Load Brython environment
-        const brythonScript = document.createElement("script");
-        brythonScript.src = "https://cdn.jsdelivr.net/npm/brython@3.13.0/brython.min.js";
-        brythonScript.onload = () => {
-            window.brython(); // Initialize Brython after loading
-        };
-        document.body.appendChild(brythonScript);
+        // Check and load Brython script if not already present
+        if (!document.querySelector('script[src="https://cdn.jsdelivr.net/npm/brython@3.13.0/brython.min.js"]')) {
+            const brythonScript = document.createElement("script");
+            brythonScript.src = "https://cdn.jsdelivr.net/npm/brython@3.13.0/brython.min.js";
+            brythonScript.onload = () => {
+                window.brython(); // Initialize Brython after loading
+            };
+            document.body.appendChild(brythonScript);
+        }
 
-        const brythonStdlibScript = document.createElement("script");
-        brythonStdlibScript.src = "https://cdn.jsdelivr.net/npm/brython@3.13.0/brython_stdlib.js";
-        document.body.appendChild(brythonStdlibScript);
+        // Check and load Brython standard library script if not already present
+        if (!document.querySelector('script[src="https://cdn.jsdelivr.net/npm/brython@3.13.0/brython_stdlib.js"]')) {
+            const brythonStdlibScript = document.createElement("script");
+            brythonStdlibScript.src = "https://cdn.jsdelivr.net/npm/brython@3.13.0/brython_stdlib.js";
+            document.body.appendChild(brythonStdlibScript);
+        }
     }, []);
+
+    useEffect(() => {
+        // Get cached code from local storage
+        const cachedCode = getCache(cacheKey);
+        if (cachedCode) {
+            setCode(cachedCode);
+        } else {
+            setCache(cacheKey, code); // Set initial code in cache
+        }
+
+        // Check and load grid state from local storage
+        const cachedGridState = getCache("gridVertical");
+        if (cachedGridState) {
+            setGridVertical(cachedGridState === "true"); // Convert string to boolean
+        } else {
+            setCache("gridVertical", `${gridVertical}`); // Set initial grid state in cache
+        }
+    }, [code, gridVertical]);
 
     const handleEditorChange = (value: string = "") => {
         setCode(value);
+        setCache(cacheKey, value)
     };
 
     const runCode = async () => {
@@ -65,12 +95,12 @@ class OutputCatcher:
 sys.stdout = OutputCatcher()
 
 try:
-    exec("""${code.replace(/"/g, '\\"')}""")
+    exec('''${code.replace(/'/g, "\\'")}''')
 except Exception as e:
     print(f"Error: {e}")
 
-# Bind the output directly to the provided container ID
-document["output-console"].textContent = "".join(sys.stdout.output)
+output_str = "\\n".join(sys.stdout.output)
+document["output-console"].innerHTML = output_str.replace("\\n", "<span class='line-break'></span>")
 `;
 
             // Use the existing "output-console" container
@@ -89,7 +119,7 @@ document["output-console"].textContent = "".join(sys.stdout.output)
 
             // Read the output from the specified container
             const result =
-                document.getElementById(outputContainerId)?.textContent || "No output.";
+                document.getElementById(outputContainerId)?.innerHTML || "No output.";
             setOutput(result);
 
             // Cleanup the script
@@ -101,9 +131,17 @@ document["output-console"].textContent = "".join(sys.stdout.output)
         }
     };
 
+    function handleGridChange() {
+        setGridVertical(!gridVertical);
+        setCache("gridVertical", `${!gridVertical}`); // Update cache with new grid state
+    }
+
     return (
         <div className="flex flex-col w-full gap-5">
-            <div className="w-full flex justify-end">
+            <div className="w-full flex justify-end gap-2">
+                <button onClick={() => handleGridChange()} disabled={isRunning} className="bg-green-500 rounded-sm h-10 text-center px-2">
+                    {gridVertical ? <CiGrid2V className="text-3xl" /> : <CiGrid2H className="text-3xl" />}
+                </button>
                 <button onClick={runCode} disabled={isRunning} className="bg-green-500 rounded-sm w-32 h-10">
                     {isRunning ? "Running..." : "Run"}
                 </button>
@@ -120,12 +158,12 @@ document["output-console"].textContent = "".join(sys.stdout.output)
                     cellContent={[
                         <ResizeableGrid
                             key="resizeable-grid"
-                            rows={2}
-                            cols={1}
+                            rows={gridVertical ? 2: 1}
+                            cols={gridVertical ? 1: 2}
                             minSize={200}
-                            cellClassName="rounded-lg bg-consoleGrey p-2 w-full h-full"
-                            initialHeights={["50%", "50%"]}
-                            initialWidths={["100%"]}
+                            cellClassName="rounded-lg bg-consoleGrey w-full h-full"
+                            initialHeights={gridVertical ? ["50%", "50%"]: ["100%"]}
+                            initialWidths={gridVertical ? ["100%"] : ["50%", "50%"]}
                             cellContent={[
                                 <Editor
                                     key="editor"
@@ -137,6 +175,7 @@ document["output-console"].textContent = "".join(sys.stdout.output)
                                     defaultValue={`print("Hello World!")`}
                                     options={{ minimap: { enabled: false } }}
                                     onChange={handleEditorChange}
+                                    className="rounded-lg p-2"
                                 />,
                                 <OutputConsole
                                     key="output-console"
@@ -152,4 +191,4 @@ document["output-console"].textContent = "".join(sys.stdout.output)
     );
 };
 
-export default TutorialCodeEditor;
+export default CodeEditor;
