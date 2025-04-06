@@ -28,7 +28,7 @@ const Footer = () => {
                 <FooterLink text="About Us" href="/about" />
                 <FooterLink text="Attributions" href="/attributions" />
                 <FooterLink text="Careers" href="/careers" />
-                <FooterLink text="Privacy Policy" href="/privacy" />
+                <FooterLink text="Privacy Policy" href="/privacy-policy" />
             </FooterColumn>
 
             {/* Resources Section */}
