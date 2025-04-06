@@ -6,13 +6,15 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "postbuild": "next-sitemap"
   },
   "dependencies": {
     "@monaco-editor/react": "^4.6.0",
     "@react-spring/web": "^9.7.5",
     "ace-builds": "^1.36.5",
     "next": "^15.0.3",
+    "next-sitemap": "^4.2.3",
     "next-transpile-modules": "^10.0.1",
     "pyodide": "^0.26.4",
     "react": "18.3.1",

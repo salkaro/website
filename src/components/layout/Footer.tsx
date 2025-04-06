@@ -36,6 +36,7 @@ const Footer = () => {
                 <FooterLink text="Flippify" href="https://flippify.io?ref=salkaro" />
                 <FooterLink text="Discord" href="https://discord.gg/aHXVSMkmpk" />
                 <FooterLink text="Code Online" href="/write-code" />
+                <FooterLink text="Copy Text" href="/copy-text?p=Paste%20Your%20Text" />
             </FooterColumn>
 
             {/* Other websites Section */}

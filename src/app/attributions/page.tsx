@@ -6,7 +6,7 @@ import AttributionBlock from "@/components/attributions/AttributionBlock";
 import Layout from "@/components/layout/Layout";
 
 export const metadata: Metadata = {
-    title: "Salkaro - Attributions",
+    title: "Attributions | Salkaro",
     description: "Salkaro has not created everything on this site. This page contain all the material which we have used and their creators.",
     robots: {
         index: true,

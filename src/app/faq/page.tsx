@@ -15,9 +15,9 @@ export const metadata: Metadata = {
             index: true,
             follow: true,
             noimageindex: true,
-            'max-video-preview': -1,
-            'max-image-preview': 'large',
-            'max-snippet': -1,
+            "max-video-preview": -1,
+            "max-image-preview": "large",
+            "max-snippet": -1,
         },
     },
 };
@@ -51,7 +51,7 @@ export default function FAQs() {
                     </div>
 
                     <div>
-                        <h2 className="font-semibold text-2xl mb-2 text-white">What's the tech stack?</h2>
+                        <h2 className="font-semibold text-2xl mb-2 text-white">What&apos;s the tech stack?</h2>
                         <p>Most of the Salkaro sites are built using NextJS. Everything is open source and designed to be lightweight and simple.</p>
                     </div>
 

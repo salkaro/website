@@ -1,4 +1,5 @@
 // External Imports
+import Link from "next/link";
 import { Metadata } from "next";
 
 // Local Imports
@@ -43,19 +44,19 @@ export default function About() {
                 <h2 className="text-2xl font-semibold mt-10 mb-4">Some things we’ve built so far:</h2>
                 <ul className="list-disc list-inside space-y-2 text-md">
                     <li>
-                        <a href="https://isitdown.salkaro.com" className="text-blue-600 hover:underline">isitdown.salkaro.com</a> — check if a website is down
+                        <Link href="https://isitdown.salkaro.com" className="text-blue-600 hover:underline">isitdown.salkaro.com</Link> — check if a website is down
                     </li>
                     <li>
-                        <a href="https://timer.salkaro.com" className="text-blue-600 hover:underline">timer.salkaro.com</a> — set timers for focus or fun
+                        <Link href="https://timer.salkaro.com" className="text-blue-600 hover:underline">timer.salkaro.com</Link> — set timers for focus or fun
                     </li>
                     <li>
-                        <a href="https://games.salkaro.com" className="text-blue-600 hover:underline">games.salkaro.com</a> — simple games for breaks or boredom
+                        <Link href="https://games.salkaro.com" className="text-blue-600 hover:underline">games.salkaro.com</Link> — simple games for breaks or boredom
                     </li>
                     <li>
-                        <a href="/code-demos" className="text-blue-600 hover:underline">Code Demos</a> — see live examples of small code experiments
+                        <Link href="/code-demos" className="text-blue-600 hover:underline">Code Demos</Link> — see live examples of small code experiments
                     </li>
                     <li>
-                        <a href="/write-code" className="text-blue-600 hover:underline">Online Editor</a> — write and run code directly in your browser
+                        <Link href="/write-code" className="text-blue-600 hover:underline">Online Editor</Link> — write and run code directly in your browser
                     </li>
                 </ul>
                 <p className="text-md mt-8">
