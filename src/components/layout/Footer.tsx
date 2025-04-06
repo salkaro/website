@@ -27,24 +27,23 @@ const Footer = () => {
             <FooterColumn>
                 <FooterLink text="About Us" href="/about" />
                 <FooterLink text="Attributions" href="/attributions" />
-                <FooterLink text="Careers" href="/careers" />
                 <FooterLink text="Privacy Policy" href="/privacy-policy" />
+                <FooterLink text="FAQs" href="/faq" />
             </FooterColumn>
 
             {/* Resources Section */}
             <FooterColumn>
-                <FooterLink text="Blog" href="/blog" />
-                <FooterLink text="Documentation" href="/docs" />
-                <FooterLink text="FAQs" href="/faq" />
-                <FooterLink text="Timer" href="https://timer.salkaro.com" />
+                <FooterLink text="Flippify" href="https://flippify.io?ref=salkaro" />
+                <FooterLink text="Discord" href="https://discord.gg/aHXVSMkmpk" />
+                <FooterLink text="Code Online" href="/write-code" />
             </FooterColumn>
 
-            {/* Links Section */}
+            {/* Other websites Section */}
             <FooterColumn>
                 <FooterLink text="Is It Down?" href="https://isitdown.salkaro.com" />
                 <FooterLink text="Games" href="https://games.salkaro.com" />
-                <FooterLink text="Study" href="https://salkaro.com/study-materials" />
-                <FooterLink text="Code Demos" href="https://salkaro.com/code-demos" />
+                <FooterLink text="Study" href="/study-materials" />
+                <FooterLink text="Code Demos" href="/code-demos" />
             </FooterColumn>
 
             {/* Social Media Section */}

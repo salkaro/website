@@ -23,7 +23,7 @@ export const metadata: Metadata = {
     },
 };
 
-export default function Home() {
+export default function Attributions() {
     return (
         <Layout>
             <div className="flex flex-col gap-16">
