@@ -2,17 +2,19 @@
 
 // External Imports
 import { Editor } from "@monaco-editor/react";
-import { useState, useEffect } from "react";
 import { CiGrid2H } from "react-icons/ci";
 import { CiGrid2V } from "react-icons/ci";
+import { Columns2, LoaderCircle, Play, Rows2 } from "lucide-react";
+import { useState, useEffect } from "react";
 
 // Local Imports
-import ResizeableGrid from "@/components/layout/ResizeableGrid";
+import { getCache, setCache } from "@/utils/cache-helpers";
 import OutputConsole from "./OutputConsole";
 
 // Styles
 import 'react-resizable/css/styles.css';
-import { getCache, setCache } from "@/utils/cache-helpers";
+import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "../ui/resizable";
+import { Button } from "../ui/button";
 
 
 declare global {
@@ -138,53 +140,42 @@ document["output-console"].innerHTML = output_str.replace("\\n", "<span class='l
 
     return (
         <div className="flex flex-col w-full gap-5">
-            <div className="w-full flex justify-end gap-2">
-                <button onClick={() => handleGridChange()} disabled={isRunning} className="bg-green-500 rounded-sm h-10 text-center px-2">
-                    {gridVertical ? <CiGrid2V className="text-3xl" /> : <CiGrid2H className="text-3xl" />}
-                </button>
-                <button onClick={runCode} disabled={isRunning} className="bg-green-500 rounded-sm w-32 h-10">
-                    {isRunning ? "Running..." : "Run"}
-                </button>
+            <div className="w-full flex justify-start gap-2">
+                <Button variant="ghost" onClick={() => handleGridChange()} disabled={isRunning} className="rounded-sm h-9">
+                    {gridVertical ? <Columns2 /> : <Rows2 />}
+                </Button>
+                <Button variant="ghost" onClick={runCode} disabled={isRunning} className="rounded-sm h-9">
+                    {isRunning ? <LoaderCircle /> : <Play />}
+                </Button>
             </div>
 
             <div className="h-screen w-full">
-                <ResizeableGrid
-                    rows={1}
-                    cols={1}
-                    minSize={200}
-                    cellClassName=""
-                    initialHeights={["100%"]}
-                    initialWidths={["100%"]}
-                    cellContent={[
-                        <ResizeableGrid
-                            key="resizeable-grid"
-                            rows={gridVertical ? 2: 1}
-                            cols={gridVertical ? 1: 2}
-                            minSize={200}
-                            cellClassName="rounded-lg bg-consoleGrey w-full h-full"
-                            initialHeights={gridVertical ? ["50%", "50%"]: ["100%"]}
-                            initialWidths={gridVertical ? ["100%"] : ["50%", "50%"]}
-                            cellContent={[
-                                <Editor
-                                    key="editor"
-                                    height="100%"
-                                    width="100%"
-                                    theme="vs-dark"
-                                    language="python"
-                                    value={code}
-                                    defaultValue={`print("Hello World!")`}
-                                    options={{ minimap: { enabled: false } }}
-                                    onChange={handleEditorChange}
-                                    className="rounded-lg p-2"
-                                />,
-                                <OutputConsole
-                                    key="output-console"
-                                    output={output}
-                                />
-                            ]}
+                <ResizablePanelGroup
+                    direction={gridVertical ? "vertical": "horizontal"}
+                    className="max-w-md rounded-lg border md:min-w-full"
+                >
+                    <ResizablePanel defaultSize={500}>
+                        <Editor
+                            key="editor"
+                            height="100%"
+                            width="100%"
+                            theme="vs-dark"
+                            language="python"
+                            value={code}
+                            defaultValue={`print("Hello World!")`}
+                            options={{ minimap: { enabled: false } }}
+                            onChange={handleEditorChange}
+                            className="rounded-lg p-2"
                         />
-                    ]}
-                />
+                    </ResizablePanel>
+                    <ResizableHandle />
+                    <ResizablePanel defaultSize={500}>
+                        <OutputConsole
+                            key="output-console"
+                            output={output}
+                        />
+                    </ResizablePanel>
+                </ResizablePanelGroup>
 
             </div>
         </div>

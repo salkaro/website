@@ -1,14 +1,14 @@
 import React from 'react'
 import Bubble from './Bubble'
 
-import { FiCodepen } from "react-icons/fi";
-import { GrGamepad } from "react-icons/gr";
 import { FaCode } from "react-icons/fa";
+import { GrGamepad } from "react-icons/gr";
 import { LuBookText } from "react-icons/lu";
 import { FaGithubAlt } from "react-icons/fa";
 import { MdOutlineSell } from "react-icons/md";
 import { MdOutlineTimer } from "react-icons/md";
 import { IoGlobeOutline } from "react-icons/io5";
+import { MdOutlineFindInPage } from "react-icons/md";
 
 const Page = () => {
     return (
@@ -28,9 +28,6 @@ const Page = () => {
             <div className='absolute top-1/3 left-1/2 transform -translate-x-1/2'>
                 <Bubble tooltipText="Study Materials" icon={<LuBookText />} link="/study-material" />
             </div>
-            <div className='absolute bottom-32 sm:bottom-1/4 left-1/4'>
-                <Bubble tooltipText="Code Demos" icon={<FiCodepen className='text-xl' />} link="/code-demos" />
-            </div>
             <div className='absolute bottom-10 right-10'>
                 <Bubble tooltipText="Open Source Repo" icon={<FaGithubAlt />} link="https://github.com/salkaro" tooltipLeft />
             </div>
@@ -42,6 +39,9 @@ const Page = () => {
             </div>
             <div className='absolute top-16 right-0 sm:right-40'>
                 <Bubble tooltipText="Online Timer" icon={<MdOutlineTimer />} link="https://timer.salkaro.com" tooltipLeft />
+            </div>
+            <div className='absolute bottom-32 sm:bottom-1/4 left-1/4'>
+                <Bubble tooltipText="Word Finder" icon={<MdOutlineFindInPage />} link="https://wordfinder.salkaro.com" />
             </div>
         </div>
     )

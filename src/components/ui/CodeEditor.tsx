@@ -35,6 +35,9 @@ const CodeEditor: React.FC<CodeEditerProps> = ({ mode, code, readOnly, width, he
                 displayIndentGuides: false,
                 highlightActiveLine: false,
                 showPrintMargin: false,
+                enableBasicAutocompletion: true,
+                enableLiveAutocompletion: true,
+                enableSnippets: true,
             }}
             readOnly={readOnly}
         />

@@ -21,7 +21,7 @@ export const metadata: Metadata = {
     },
 }
 
-export default function StudyMaterial() {
+export default function PrivacyPolicy() {
     return (
         <Layout>
             <Link href="https://www.termsfeed.com/live/1b08e4ef-d956-49b3-bd82-0e118b8110ce" target="_blank">Privacy Policy</Link>

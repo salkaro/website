@@ -2,8 +2,8 @@
 // ...
 
 // Local Imports
-import NavbarLinks from './NavbarLinks';
 import NavbarTitle from '../ui/NavbarTitle';
+import NavbarMenu from './NavbarMenu';
 
 
 interface NavbarProps {
@@ -15,30 +15,33 @@ interface NavbarProps {
 const Navbar: React.FC<NavbarProps> = ({ isSidebarOpen, setIsSidebarOpen }) => {
     return (
         <nav className="bg-darkGrey text-white px-6 py-4 rounded-full">
-            <div className="w-full flex justify-between items-center">
+            <div className="w-full flex justify-start items-center gap-12">
                 {/* Logo or Brand Name */}
                 <NavbarTitle />
 
                 {/* Navigation Links for larger screens */}
-                <div className="hidden space-x-4 md:flex justify-center items-center">
-                    <NavbarLinks />
+                <div className='hidden md:block'>
+                    <NavbarMenu />
                 </div>
 
-                {/* Hamburger Icon for smaller screens */}
-                <button
-                    className="md:hidden focus:outline-none"
-                    onClick={() => setIsSidebarOpen(!isSidebarOpen)}
-                >
-                    <svg
-                        className="w-6 h-6"
-                        fill="none"
-                        stroke="currentColor"
-                        viewBox="0 0 24 24"
-                        xmlns="http://www.w3.org/2000/svg"
+                <div className='md:hidden w-full flex justify-end items-center'>
+                    {/* Hamburger Icon for smaller screens */}
+                    <button
+                        className="focus:outline-none"
+                        onClick={() => setIsSidebarOpen(!isSidebarOpen)}
                     >
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
-                    </svg>
-                </button>
+                        <svg
+                            className="w-6 h-6"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg"
+                        >
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h16M4 18h16" />
+                        </svg>
+                    </button>
+                </div>
+
             </div>
         </nav>
     );
