@@ -10,7 +10,7 @@ import { useState } from "react"
 
 interface InputProps {
     setStatus: (status: string) => void;
-    setIp: (ip: { address: string, family: number }) => void;
+    setIp: (ip?: { address: string, family: number }) => void;
 }
 
 const Input: React.FC<InputProps> = ({ setStatus, setIp }) => {
@@ -19,6 +19,7 @@ const Input: React.FC<InputProps> = ({ setStatus, setIp }) => {
 
     async function handleOnClick() {
         setStatus("");
+        setIp();
         if (!url) {
             setStatus("Please enter a URL.");
             return;
