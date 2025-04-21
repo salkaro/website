@@ -3,7 +3,7 @@
 // External Imports
 import { Editor } from "@monaco-editor/react";
 import { LoaderCircle, Play } from "lucide-react";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 
 // Local Imports
 import { getCache, setCache } from "@/utils/cache-helpers";
@@ -15,23 +15,27 @@ import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "../ui/resi
 import { Button } from "../ui/button";
 import OptionsMenu from "./OptionsMenu";
 
+// Pyodide Interface type
+interface PyodideInterface {
+    loadPackage: (pkg: string) => Promise<void>;
+    loadPackagesFromImports: (code: string) => Promise<void>;
+    runPythonAsync: (code: string) => Promise<unknown>;
+}
 
 declare global {
     interface Window {
-        brython: () => void;
+        _pyodide?: PyodideInterface;
     }
 }
 
-
-
 const initialCode = {
-    "python": "print('Hello World!')",
-    "javascript": "console.log('Hello World!')",
+    python: "print('Hello World!')",
+    javascript: "console.log('Hello World!')",
     cpp: `#include <iostream>
 using namespace std;
 
 int main() {
-    cout << "Hello from C++!" << endl;
+    cout << \"Hello from C++!\" << endl;
     return 0;
 }`
 };
@@ -46,116 +50,104 @@ const CodeEditor: React.FC<CodeEditorProps> = ({ language }) => {
     const [isRunning, setIsRunning] = useState<boolean>(false);
     const cacheKey = `code-${language}`;
 
+    // Grid & minimap state
     const [gridVertical, setGridVertical] = useState<boolean>(false);
     const [miniMap, setMinimap] = useState<boolean>(false);
 
-    useEffect(() => {
-        if (language === "python") {
-            if (
-                !document.querySelector(
-                    'script[src="https://cdn.jsdelivr.net/npm/brython@3.13.0/brython.min.js"]'
-                )
-            ) {
-                const brythonScript = document.createElement("script");
-                brythonScript.src =
-                    "https://cdn.jsdelivr.net/npm/brython@3.13.0/brython.min.js";
-                brythonScript.onload = () => {
-                    window.brython();
-                };
-                document.body.appendChild(brythonScript);
-            }
+    // Pyodide ref & ready flag
+    const pyodideRef = useRef<PyodideInterface | null>(null);
+    const [pyodideReady, setPyodideReady] = useState<boolean>(false);
 
-            if (
-                !document.querySelector(
-                    'script[src="https://cdn.jsdelivr.net/npm/brython@3.13.0/brython_stdlib.js"]'
-                )
-            ) {
-                const brythonStdlibScript = document.createElement("script");
-                brythonStdlibScript.src =
-                    "https://cdn.jsdelivr.net/npm/brython@3.13.0/brython_stdlib.js";
-                document.body.appendChild(brythonStdlibScript);
-            }
-        }
-    }, [language]);
-
+    // Load cached code & layout
     useEffect(() => {
-        // Get cached code from local storage
         const cachedCode = getCache(cacheKey) as string;
-        if (cachedCode) {
-            setCode(cachedCode);
-        } else {
-            setCache(cacheKey, code); // Set initial code in cache
-        }
+        if (cachedCode) setCode(cachedCode);
+        else setCache(cacheKey, code);
 
-        // Check and load grid state from local storage
-        const cachedGridState = getCache("gridVertical");
-        if (cachedGridState) {
-            setGridVertical(cachedGridState === "true"); // Convert string to boolean
-        } else {
-            setCache("gridVertical", `${gridVertical}`); // Set initial grid state in cache
-        }
+        const cachedGrid = getCache("gridVertical");
+        if (cachedGrid) setGridVertical(cachedGrid === "true");
+        else setCache("gridVertical", `${gridVertical}`);
     }, [code, gridVertical, cacheKey]);
+
+    // Initialize Pyodide when Python is selected (using module script injection)
+    useEffect(() => {
+        if (language !== "python") return;
+
+        // Create a <script type="module"> to import Pyodide ESM
+        const moduleScript = document.createElement("script");
+        moduleScript.type = "module";
+        moduleScript.textContent = `
+      import { loadPyodide } from 'https://cdn.jsdelivr.net/pyodide/v0.23.4/full/pyodide.mjs';
+      (async () => {
+        const pyodide = await loadPyodide({
+          indexURL: 'https://cdn.jsdelivr.net/pyodide/v0.23.4/full/'
+        });
+        await pyodide.loadPackage('micropip');
+        window._pyodide = pyodide;
+        window.dispatchEvent(new Event('pyodide-ready'));
+      })();
+    `;
+        document.body.appendChild(moduleScript);
+
+        // Handler when Pyodide is ready
+        const onReady = () => {
+            pyodideRef.current = window._pyodide!;
+            setPyodideReady(true);
+        };
+        window.addEventListener('pyodide-ready', onReady);
+
+        // Cleanup
+        return () => {
+            window.removeEventListener('pyodide-ready', onReady);
+            document.body.removeChild(moduleScript);
+            pyodideRef.current = null;
+            setPyodideReady(false);
+        };
+    }, [language]);
 
     const handleEditorChange = (value: string = "") => {
         setCode(value);
-        setCache(cacheKey, value)
+        setCache(cacheKey, value);
     };
 
     const runPythonCode = async () => {
+        if (!pyodideReady || !pyodideRef.current) {
+            setOutput("Loading Python runtime...");
+            return;
+        }
+
         setIsRunning(true);
+        setOutput("");
+
         try {
-            // Clear the output area
-            setOutput("");
+            setOutput("Loading packages...")
+            await pyodideRef.current.loadPackagesFromImports(code);
+            setOutput("")
 
-            // Wrap the Python code with sys.stdout redirection
-            const wrappedCode = `
+            const captureCode = `
 import sys
-from browser import document
+import io
 
-class OutputCatcher:
-    def __init__(self):
-        self.output = []
+sys.stdout = io.StringIO()
+sys.stderr = io.StringIO()
 
-    def write(self, text):
-        self.output.append(text)
+# --- USER CODE START ---
+${code}
+# --- USER CODE END ---
 
-    def flush(self):
-        pass
-
-sys.stdout = OutputCatcher()
-
-try:
-    exec('''${code.replace(/'/g, "\\'")}''')
-except Exception as e:
-    print(f"Error: {e}")
-
-output_str = "\\n".join(sys.stdout.output)
-document["output-console"].innerHTML = output_str.replace("\\n", "<span class='line-break'></span>")
+__output__ = sys.stdout.getvalue()
+__error__ = sys.stderr.getvalue()
 `;
 
-            // Use the existing "output-console" container
-            const outputContainerId = "output-console";
+            await pyodideRef.current.runPythonAsync(captureCode);
+            const out = await pyodideRef.current.runPythonAsync("__output__");
+            const err = await pyodideRef.current.runPythonAsync("__error__");
 
-            // Create a script tag for Python code
-            const pythonScript = document.createElement("script");
-            pythonScript.type = "text/python";
-            pythonScript.textContent = wrappedCode;
-
-            // Append the script and execute
-            document.body.appendChild(pythonScript);
-
-            // Allow time for Brython to execute and update the output container
-            await new Promise((resolve) => setTimeout(resolve, 200)); // Small delay for execution
-
-            // Read the output from the specified container
-            const result =
-                document.getElementById(outputContainerId)?.innerHTML || "No output.";
-            setOutput(result);
-
-            // Cleanup the script
-            document.body.removeChild(pythonScript);
-        } catch (error) {
-            setOutput(`Error: ${error}`);
+            const finalOutput = [out, err].filter(Boolean).join("\n").trim();
+            setOutput(finalOutput || "No output.");
+        } catch (err: unknown) {
+            const message = err instanceof Error ? err.message : String(err);
+            setOutput(`Error: ${message}`);
         } finally {
             setIsRunning(false);
         }
@@ -166,73 +158,50 @@ document["output-console"].innerHTML = output_str.replace("\\n", "<span class='l
         try {
             const logs: string[] = [];
             const originalLog = console.log;
-            console.log = (...args) => {
-                logs.push(args.map(String).join(" "));
-            };
-
-            try {
-                // Safer than eval — isolates code
-                new Function(code)();
-            } catch (e) {
-                logs.push(`Error: ${(e as Error).message}`);
-            }
-
+            console.log = (...args: unknown[]) => { logs.push(args.map(String).join(" ")); };
+            try { new Function(code)(); }
+            catch (e: unknown) { logs.push(`Error: ${(e as Error).message}`); }
             setOutput(logs.join("<span class='line-break'></span>") || "No output.");
             console.log = originalLog;
-        } catch (error) {
-            setOutput(`Error: ${error}`);
-        } finally {
-            setIsRunning(false);
-        }
+        } catch (e: unknown) {
+            const message = e instanceof Error ? e.message : String(e);
+            setOutput(`Error: ${message}`);
+        } finally { setIsRunning(false); }
     };
 
     const runCppCode = async () => {
         setIsRunning(true);
         try {
             setOutput("Compiling and running...");
-
             const response = await fetch("https://cpp.wasm.run/api/compile", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
-                body: JSON.stringify({ code }),
+                body: JSON.stringify({ code })
             });
-
-            const result = await response.json();
-
-            if (result.stdout || result.stderr) {
-                setOutput(
-                    [result.stdout, result.stderr]
-                        .filter(Boolean)
-                        .join("<span class='line-break'></span>") || "No output."
-                );
-            } else {
-                setOutput("No output.");
-            }
-        } catch (error) {
-            setOutput(`Error: ${error}`);
-        } finally {
-            setIsRunning(false);
-        }
+            const resJson = await response.json();
+            const out = [resJson.stdout, resJson.stderr]
+                .filter(Boolean)
+                .join("<span class='line-break'></span>");
+            setOutput(out || "No output.");
+        } catch (e: unknown) {
+            const message = e instanceof Error ? e.message : String(e);
+            setOutput(`Error: ${message}`);
+        } finally { setIsRunning(false); }
     };
 
     const runCode = () => {
         switch (language) {
-            case "python":
-                runPythonCode();
-                break;
-            case "javascript":
-                runJavaScriptCode();
-                break;
-            case "cpp":
-                runCppCode();
-                break;
+            case "python": runPythonCode(); break;
+            case "javascript": runJavaScriptCode(); break;
+            case "cpp": runCppCode(); break;
         }
     };
 
-    function handleGridChange() {
-        setGridVertical(!gridVertical);
-        setCache("gridVertical", `${!gridVertical}`); // Update cache with new grid state
-    }
+    const handleGridChange = () => {
+        const next = !gridVertical;
+        setGridVertical(next);
+        setCache("gridVertical", `${next}`);
+    };
 
     return (
         <div className="flex flex-col w-full gap-5">
@@ -243,12 +212,21 @@ document["output-console"].innerHTML = output_str.replace("\\n", "<span class='l
                 >
                     <ResizablePanel defaultSize={500}>
                         <div className="w-full flex justify-end gap-2 pr-2 mt-2">
-                            <OptionsMenu gridVertical={gridVertical} handleGridChange={handleGridChange} miniMap={miniMap} setMinimap={setMinimap} />
-                            <Button variant="ghost" onClick={runCode} disabled={isRunning} className="rounded-sm h-9">
+                            <OptionsMenu
+                                gridVertical={gridVertical}
+                                handleGridChange={handleGridChange}
+                                miniMap={miniMap}
+                                setMinimap={setMinimap}
+                            />
+                            <Button
+                                variant="ghost"
+                                onClick={runCode}
+                                disabled={isRunning}
+                                className="rounded-sm h-9"
+                            >
                                 {isRunning ? <LoaderCircle /> : <Play />}
                             </Button>
                         </div>
-
                         <Editor
                             key="editor"
                             height="100%"
@@ -264,13 +242,9 @@ document["output-console"].innerHTML = output_str.replace("\\n", "<span class='l
                     </ResizablePanel>
                     <ResizableHandle />
                     <ResizablePanel defaultSize={500}>
-                        <OutputConsole
-                            key="output-console"
-                            output={output}
-                        />
+                        <OutputConsole key="output-console" output={output} />
                     </ResizablePanel>
                 </ResizablePanelGroup>
-
             </div>
         </div>
     );

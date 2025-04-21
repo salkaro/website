@@ -1,4 +1,4 @@
-// File: app/api/isitdown/route.ts
+import dns from 'node:dns/promises'; 
 import { NextResponse } from 'next/server';
 
 export async function GET(request: Request) {
@@ -15,28 +15,32 @@ export async function GET(request: Request) {
     }
 
     // Ensure the URL has a scheme. If not, prepend "https://"
-    let formattedUrl = inputUrl;
+    let hostname = inputUrl;
     if (!/^https?:\/\//i.test(inputUrl)) {
-        formattedUrl = `https://${inputUrl}`;
+        hostname = `https://${inputUrl}`;
     }
+    const parsed = new URL(hostname);
 
     try {
+        const ips = await dns.lookup(parsed.hostname);
         // Use a HEAD request for a quick check.
-        const response = await fetch(formattedUrl, {
+        const response = await fetch(hostname, {
             method: "HEAD",
             // this tells Next’s fetch not to cache nor re‑use
             cache: "no-store",
             // follow redirects (optional but often helpful)
             redirect: "follow",
         });
+        console.log(ips)
 
         // If the fetch is successful and the status is OK, the site is up.
         if (response.ok) {
-            return NextResponse.json({ down: false, status: response.status });
+            return NextResponse.json({ down: false, status: response.status, ip: ips, });
         } else {
-            return NextResponse.json({ down: true, status: response.status });
+            return NextResponse.json({ down: true, status: response.status, ip: ips, });
         }
     } catch (error) {
+        console.error(error)
         // If an error is thrown, assume the site is down.
         return NextResponse.json({ down: true, error: error });
     }

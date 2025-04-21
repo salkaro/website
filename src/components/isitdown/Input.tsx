@@ -10,9 +10,10 @@ import { useState } from "react"
 
 interface InputProps {
     setStatus: (status: string) => void;
+    setIp: (ip: { address: string, family: number }) => void;
 }
 
-const Input: React.FC<InputProps> = ({ setStatus }) => {
+const Input: React.FC<InputProps> = ({ setStatus, setIp }) => {
     const [url, setUrl] = useState<string>("")
     const [loading, setLoading] = useState<boolean>(false)
 
@@ -28,10 +29,13 @@ const Input: React.FC<InputProps> = ({ setStatus }) => {
             const response = await fetch(`/api/isitdown?url=${encodeURIComponent(url)}`);
             const data = await response.json();
 
-            if (data.down) {
+            if (data.down && data.status) {
                 setStatus(`The site is down (status: ${data.status || "unknown"}). ${getReasonPhrase(data.status)}`);
+            } else if (data.down && data.error) {
+                setStatus(`The site could not be found. No valid domain exists.`);
             } else {
-                setStatus(`The site is up (status: ${data.status}).`);
+                setStatus(`The site is up (status: ${data.status}). ${getReasonPhrase(data.status)}`);
+                setIp(data.ip);
             }
         } catch (error) {
             console.log(error);
