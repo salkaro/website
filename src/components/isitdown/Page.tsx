@@ -1,5 +1,6 @@
 "use client";
 
+import Title from "../ui/title";
 import Input from "./Input";
 
 import { useState } from "react";
@@ -9,10 +10,7 @@ const Page = () => {
 
     return (
         <div className="min-h-screen flex flex-col items-center justify-start mt-24">
-            <div className="text-center">
-                <h1 className="text-5xl font-bold mb-4">Is This Website Down?</h1>
-                <p className="text-md font-semibold mb-4">Check Website Status Instantly</p>
-            </div>
+            <Title title="Is This Website Down?" subTitle="Check Website Status Instantly"/>
             <div className="text-center">
                 <Input setStatus={setStatus} />
             </div>

@@ -27,7 +27,7 @@ export const metadata: Metadata = {
 export default function About() {
     return (
         <Layout>
-            <div className="h-full max-w-2xl flex-grow flex flex-col gap-2">
+            <div className="h-full max-w-2xl grow flex flex-col gap-2">
                 <h1 className="text-6xl my-12">About Salkaro</h1>
 
                 <p className="text-md mb-6">

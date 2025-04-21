@@ -1,8 +1,5 @@
 import Head from 'next/head';
-import { Lato } from 'next/font/google';
 import type { Metadata } from "next";
-
-const lato = Lato({ weight: '900', style: 'normal', subsets: ['latin'] });
 
 import "@/styles/globals.css";
 import { ThemeProvider } from '@/components/theme-provider';
@@ -54,7 +51,8 @@ export default function RootLayout({
             </Head>
             <body
                 suppressHydrationWarning
-                className={`${lato.className} antialiased bg-offBlack text-white overflow-x-hidden scrollbar-hide w-full`}
+                className={`antialiased overflow-x-hidden w-full`}
+
             >
                 <ThemeProvider
                     attribute="class"

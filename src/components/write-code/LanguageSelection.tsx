@@ -1,18 +1,24 @@
-// External Imports
-import Link from 'next/link';
+"use client"
 
-// Local Imports
+// External Imports
+import { Card, CardContent } from '../ui/card';
 
 
 interface LanguageSelectionProps {
     name: string;
     link: string;
+    icon: React.ReactNode
 }
 
 
-const LanguageSelection:React.FC<LanguageSelectionProps> = ({ name, link }) => {
+const LanguageSelection: React.FC<LanguageSelectionProps> = ({ name, link, icon }) => {
     return (
-        <Link href={link}>{name}</Link>
+        <Card onClick={() => { window.location.replace(link) }} className='hover:bg-muted/50 select-none p-6 sm:p-10 cursor-pointer'>
+            <CardContent className='flex flex-col items-center justify-center gap-1'>
+                {icon}
+                <p>{name}</p>
+            </CardContent>
+        </Card>
     )
 }
 

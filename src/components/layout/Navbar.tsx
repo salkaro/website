@@ -2,7 +2,7 @@
 // ...
 
 // Local Imports
-import NavbarTitle from '../ui/NavbarTitle';
+import NavbarTitle from './NavbarTitle';
 import NavbarMenu from './NavbarMenu';
 
 
@@ -14,8 +14,8 @@ interface NavbarProps {
 
 const Navbar: React.FC<NavbarProps> = ({ isSidebarOpen, setIsSidebarOpen }) => {
     return (
-        <nav className="bg-darkGrey text-white px-6 py-4 rounded-full">
-            <div className="w-full flex justify-start items-center gap-12">
+        <nav className="px-6 py-4 flex flex-col justify-center items-center h-16">
+            <div className="w-full flex justify-start items-center gap-6 max-w-7xl">
                 {/* Logo or Brand Name */}
                 <NavbarTitle />
 
@@ -27,7 +27,7 @@ const Navbar: React.FC<NavbarProps> = ({ isSidebarOpen, setIsSidebarOpen }) => {
                 <div className='md:hidden w-full flex justify-end items-center'>
                     {/* Hamburger Icon for smaller screens */}
                     <button
-                        className="focus:outline-none"
+                        className="focus:outline-hidden"
                         onClick={() => setIsSidebarOpen(!isSidebarOpen)}
                     >
                         <svg

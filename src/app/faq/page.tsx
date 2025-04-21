@@ -25,7 +25,7 @@ export const metadata: Metadata = {
 export default function FAQs() {
     return (
         <Layout>
-            <div className="h-full max-w-2xl flex-grow flex flex-col gap-2">
+            <div className="h-full max-w-2xl grow flex flex-col gap-2">
                 <h1 className="text-6xl my-12">FAQs</h1>
 
                 <div className="space-y-8 text-md text-gray-200">

@@ -42,7 +42,7 @@ const ButtonToCircle: React.FC<ButtonToCircleProps> = ({ text, onClick, style })
         <animated.button
             onClick={handleClick}
             style={{ ...animationStyles, ...style }} // Merge custom styles with animation styles
-            className="bg-lightGrey hover:bg-hoverLightGrey transition duration-200 text-white flex justify-center items-center border-none cursor-pointer"
+            className="bg-(--color-light-grey) hover:bg-(--color-hover-light-grey) transition duration-200 text-white flex justify-center items-center border-none cursor-pointer"
         >
             {clicked && animationComplete ? (
                 <AnimatedCheckMark />

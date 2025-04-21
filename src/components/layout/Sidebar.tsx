@@ -14,13 +14,13 @@ interface SidebarProps {
 const Sidebar: React.FC<SidebarProps> = ({ isSidebarOpen, setIsSidebarOpen }) => {
     return (
         <div
-            className={`fixed z-30 top-0 right-0 h-full w-64 bg-darkGrey shadow-lg transform ${isSidebarOpen ? 'translate-x-0' : 'translate-x-full'
+            className={`fixed z-50 bg-black top-0 right-0 h-full w-64 shadow-lg transform ${isSidebarOpen ? 'translate-x-0' : 'translate-x-full'
                 } transition-transform duration-300`}
         >
             <div className="flex flex-col p-6 space-y-6 text-white font-semibold">
                 {/* Close button */}
                 <button
-                    className="self-end focus:outline-none"
+                    className="self-end focus:outline-hidden"
                     onClick={() => setIsSidebarOpen(false)}
                 >
                     <svg

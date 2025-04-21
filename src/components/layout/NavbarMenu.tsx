@@ -46,13 +46,13 @@ const tools: { title: string; href: string; description: string }[] = [
 const learning: { title: string; href: string; description: string }[] = [
     {
         title: "Study Materials",
-        href: "/write-code",
+        href: "/atlas",
         description:
             "Study materials & questions to help you with exams.",
     },
     {
         title: "Online Timer",
-        href: "/online-timer",
+        href: "/timer",
         description:
             "Exam timer used for exams, studying etc.",
     },
@@ -63,7 +63,7 @@ const NavbarMenu = () => {
         <NavigationMenu>
             <NavigationMenuList>
                 <NavigationMenuItem>
-                    <NavigationMenuTrigger className="bg-transparent">Tools</NavigationMenuTrigger>
+                    <NavigationMenuTrigger className="bg-transparent font-semibold">Tools</NavigationMenuTrigger>
                     <NavigationMenuContent>
                         <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
                             {tools.map((tool) => (
@@ -79,7 +79,7 @@ const NavbarMenu = () => {
                     </NavigationMenuContent>
                 </NavigationMenuItem>
                 <NavigationMenuItem>
-                    <NavigationMenuTrigger className="bg-transparent">Learning</NavigationMenuTrigger>
+                    <NavigationMenuTrigger className="bg-transparent font-semibold">Learning</NavigationMenuTrigger>
                     <NavigationMenuContent>
                         <ul className="grid w-[400px] gap-3 p-4 md:w-[500px] md:grid-cols-2 lg:w-[600px] ">
                             {learning.map((tool) => (
@@ -109,16 +109,16 @@ const ListItem = React.forwardRef<
                 <a
                     ref={ref}
                     className={cn(
-                        "group block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-none transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
+                        "group block select-none space-y-1 rounded-md p-3 leading-none no-underline outline-hidden transition-colors hover:bg-accent hover:text-accent-foreground focus:bg-accent focus:text-accent-foreground",
                         className
                     )}
                     {...props}
                 >
-                    <div className="text-sm font-medium leading-none flex flex-row items-center gap-1">
+                    <div className="text-sm font-semibold leading-none flex flex-row items-center gap-1">
                         <span>{title}</span>
                         <span><AnimationArrow className="scale-75" /></span>
                         </div>
-                    <p className="line-clamp-2 text-sm leading-snug text-muted-foreground">
+                    <p className="line-clamp-2 text-sm leading-snug font-medium text-muted-foreground">
                         {children}
                     </p>
                 </a>

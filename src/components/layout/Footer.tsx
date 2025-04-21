@@ -16,13 +16,13 @@ const FooterLink: React.FC<FooterlinkProps> = ({ text, href, target }) => {
 
 const FooterColumn = ({ children }: Readonly<{ children: React.ReactNode }>) => {
     return (
-        <div className='col-span-1 text-center flex flex-col gap-3'>{children}</div>
+        <div className='col-span-1 flex flex-col gap-3'>{children}</div>
     )
 }
 
 const Footer = () => {
     return (
-        <footer className='w-full bg-darkGrey text-white grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 p-16 gap-8 mt-96'>
+        <footer className='grid grid-cols-1 bg-(--color-background) sm:grid-cols-2 lg:grid-cols-4 p-16 gap-8 2xl:mx-48'>
             {/* About Section */} 
             <FooterColumn>
                 <FooterLink text="About Us" href="/about" />

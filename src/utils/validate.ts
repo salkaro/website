@@ -12,6 +12,11 @@ export const validateTextInput = (
 };
 
 
+export function validateNumber(value: string): boolean {
+    const regex = /^[0-9]+$/;
+    return regex.test(value);
+}
+
 export const validateContainsInput = (
     text: string,
     maxLength: number = 254

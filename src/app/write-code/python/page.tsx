@@ -29,7 +29,7 @@ export const metadata: Metadata = {
 export default function PythonCode() {
     return (
         <Layout>
-            <CodeEditor />
+            <CodeEditor language="python" />
         </Layout>
     );
 }

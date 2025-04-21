@@ -7,6 +7,7 @@ import { useSpring, animated } from '@react-spring/web';
 
 // Local Imports
 import ButtonToCircle from '@/components/copy-text/ButtonToCircle';
+import Title from '../ui/title';
 
 
 export function CopyText() {
@@ -37,14 +38,12 @@ export function CopyText() {
 
     return (
         <Suspense fallback={<p>Loading...</p>}>
-            <div className="h-full max-w-2xl flex-grow flex flex-col gap-2">
-                <div className='flex flex-col items-center justify-center gap-4 my-12'>
-                    <h1 className='text-6xl'>Copy Text</h1>
-                    
-                </div>
+            <div className="h-full max-w-2xl grow flex flex-col gap-2">
+                <Title title="Copy Text" subTitle="We do not store any of the text" />
+
                 <div className="text-lg flex flex-col sm:flex-row justify-center items-center gap-4">
                     <animated.input
-                        className="border px-4 py-2 rounded-lg bg-darkGrey whitespace-nowrap border-black text-sm h-[40px] focus:ring-0 focus:border-transparent focus:outline-none"
+                        className="border px-4 py-2 rounded-lg bg-(--color-dark-grey) whitespace-nowrap border-black text-sm h-[40px] focus:ring-0 focus:border-transparent focus:outline-hidden"
                         value={text || "No text to copy"}
                         readOnly
                         style={shrinkAnimation} // Apply shrink animation
@@ -59,7 +58,6 @@ export function CopyText() {
 
                 <div className="mt-12 space-y-2">
                     <p>To use this page type <code className='p-1 bg-gray-800 rounded-lg'>https://salkaro.com/copy-text?p=*</code></p>
-                    <p>We do not store any of the text</p>
                 </div>
             </div>
         </Suspense>

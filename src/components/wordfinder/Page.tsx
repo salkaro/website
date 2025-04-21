@@ -7,6 +7,7 @@ import { Button } from '@/components/ui/button';
 import { validateContainsInput, validateTextInput } from '@/utils/validate';
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { SquareArrowOutUpRight } from 'lucide-react';
+import Title from '../ui/title';
 
 
 type WordGroups = Record<number, string[]>;
@@ -147,12 +148,7 @@ const Page = () => {
 
     return (
         <div className='min-h-screen w-full space-y-5 flex flex-col items-center'>
-            <div className="text-center my-16">
-                <h1 className='text-8xl font-bold text-gray-800 dark:text-[#d1d5dc] mb-2'>Word Finder</h1>
-                <p className='text-lg'>
-                    Use our Word Finder to discover words for Scrabble, Wordle, anagrams, and word games.
-                </p>
-            </div>
+            <Title title="Word Finder" subTitle="Use our Word Finder to discover words for Scrabble, Wordle, anagrams, and word games." />
 
             <div className='mt-16 grid grid-cols-1 md:grid-cols-2 gap-3'>
                 <div className='relative'>
@@ -164,7 +160,7 @@ const Page = () => {
                         className="h-10 w-full peer"
                     />
                     <label
-                        className={`pointer-events-none absolute left-2 text-gray-500 transition-all bg-white dark:bg-offBlack rounded px-1
+                        className={`pointer-events-none absolute left-2 text-gray-500 transition-all bg-white dark:bg-(--color-off-black) rounded px-1
             ${lettersInput ? 'top-1 -translate-y-[14px] text-sm' : 'top-1/2 -translate-y-1/2 text-base'}
             peer-focus:top-1 peer-focus:-translate-y-[14px] peer-focus:text-sm`}
                     >
@@ -181,7 +177,7 @@ const Page = () => {
                         className="h-10 w-full peer"
                     />
                     <label
-                        className={`pointer-events-none absolute left-2 text-gray-500 transition-all bg-white dark:bg-offBlack rounded px-1
+                        className={`pointer-events-none absolute left-2 text-gray-500 transition-all bg-white dark:bg-(--color-off-black) rounded px-1
             ${containsInput ? 'top-1 -translate-y-[14px] text-sm' : 'top-1/2 -translate-y-1/2 text-base'}
             peer-focus:top-1 peer-focus:-translate-y-[14px] peer-focus:text-sm`}
                     >
@@ -198,7 +194,7 @@ const Page = () => {
                         className="h-10 w-full peer"
                     />
                     <label
-                        className={`pointer-events-none absolute left-2 text-gray-500 transition-all bg-offBlack rounded px-1
+                        className={`pointer-events-none absolute left-2 text-gray-500 transition-all bg-(--color-off-black) rounded px-1
             ${excludesInput ? 'top-1 -translate-y-[14px] text-sm' : 'top-1/2 -translate-y-1/2 text-base'}
             peer-focus:top-1 peer-focus:-translate-y-[14px] peer-focus:text-sm`}
                     >
@@ -212,7 +208,7 @@ const Page = () => {
                         onChange={e => setLengthInput(e.target.value)} className="h-10 w-full peer"
                     />
                     <label
-                        className={`pointer-events-none absolute left-2 text-gray-500 transition-all bg-offBlack rounded px-1
+                        className={`pointer-events-none absolute left-2 text-gray-500 transition-all bg-(--color-off-black) rounded px-1
             ${lengthInput ? 'top-1 -translate-y-[14px] text-sm' : 'top-1/2 -translate-y-1/2 text-base'}
             peer-focus:top-1 peer-focus:-translate-y-[14px] peer-focus:text-sm`}
                     >

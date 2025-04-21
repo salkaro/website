@@ -1,6 +1,109 @@
-@import "tailwindcss";
-@import "tw-animate-css";
+@import 'tailwindcss';
+@import 'tw-animate-css';
 
+
+
+@theme inline {
+  --color-dark-blue: #090a25;
+  --color-deep-blue: #000011;
+  --color-dark-grey: #1c1c1c;
+  --color-console-grey: #1e1e1e;
+  --color-hover-dark-grey: #191919;
+  --color-light-grey: #4c4c4c;
+  --color-hover-light-grey: #393939;
+  --color-off-black: #070707;
+  --color-title: #d1d5dc;
+  --color-neon-cyan: #00ffff;
+  --color-neon-orange: #fa4616;
+  --color-neon-green: #00ffa5;
+  --color-neon-yellow: #ffe62d;
+  --color-neon-pink: #fd4499;
+  --color-neon-purple: #df19fb;
+  --color-background: hsl(var(--background));
+  --color-foreground: hsl(var(--foreground));
+
+  --color-card: hsl(var(--card));
+  --color-card-foreground: hsl(var(--card-foreground));
+
+  --color-popover: hsl(var(--popover));
+  --color-popover-foreground: hsl(var(--popover-foreground));
+
+  --color-primary: hsl(var(--primary));
+  --color-primary-foreground: hsl(var(--primary-foreground));
+
+  --color-secondary: hsl(var(--secondary));
+  --color-secondary-foreground: hsl(var(--secondary-foreground));
+
+  --color-muted: hsl(var(--muted));
+  --color-muted-foreground: hsl(var(--muted-foreground));
+
+  --color-accent: hsl(var(--accent));
+  --color-accent-foreground: hsl(var(--accent-foreground));
+
+  --color-destructive: hsl(var(--destructive));
+  --color-destructive-foreground: hsl(var(--destructive-foreground));
+
+  --color-border: hsl(var(--border));
+  --color-input: hsl(var(--input));
+  --color-ring: hsl(var(--ring));
+
+  --color-chart-1: hsl(var(--chart-1));
+  --color-chart-2: hsl(var(--chart-2));
+  --color-chart-3: hsl(var(--chart-3));
+  --color-chart-4: hsl(var(--chart-4));
+  --color-chart-5: hsl(var(--chart-5));
+
+  --animate-checkmark: checkmark 0.25s ease-in-out 0.7s backwards;
+  --animate-checkmark-circle: checkmark-circle 0.6s ease-in-out backwards;
+  --animate-colored-circle: colored-circle 0.3s ease-in-out 0.4s backwards;
+
+  --radius-lg: var(--radius);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-sm: calc(var(--radius) - 4px);
+
+  @keyframes checkmark {
+    0% {
+      stroke-dashoffset: 100px;
+    }
+    100% {
+      stroke-dashoffset: 0px;
+    }
+  }
+  @keyframes checkmark-circle {
+    0% {
+      stroke-dashoffset: 480px;
+    }
+    100% {
+      stroke-dashoffset: 960px;
+    }
+  }
+  @keyframes colored-circle {
+    0% {
+      opacity: 0;
+    }
+    100% {
+      opacity: 1;
+    }
+  }
+}
+
+/*
+  The default border color has changed to `currentcolor` in Tailwind CSS v4,
+  so we've added these compatibility styles to make sure everything still
+  looks the same as it did with Tailwind CSS v3.
+
+  If we ever want to remove these styles, we need to add an explicit border
+  color utility to any element that depends on these defaults.
+*/
+@layer base {
+  *,
+  ::after,
+  ::before,
+  ::backdrop,
+  ::file-selector-button {
+    border-color: var(--color-gray-200, currentcolor);
+  }
+}
 
 /* Hide scrollbars but still allow scrolling */
 .scrollbar-hide::-webkit-scrollbar {

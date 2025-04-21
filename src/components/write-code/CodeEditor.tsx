@@ -2,9 +2,7 @@
 
 // External Imports
 import { Editor } from "@monaco-editor/react";
-import { CiGrid2H } from "react-icons/ci";
-import { CiGrid2V } from "react-icons/ci";
-import { Columns2, LoaderCircle, Play, Rows2 } from "lucide-react";
+import { LoaderCircle, Play } from "lucide-react";
 import { useState, useEffect } from "react";
 
 // Local Imports
@@ -15,6 +13,7 @@ import OutputConsole from "./OutputConsole";
 import 'react-resizable/css/styles.css';
 import { ResizableHandle, ResizablePanel, ResizablePanelGroup } from "../ui/resizable";
 import { Button } from "../ui/button";
+import OptionsMenu from "./OptionsMenu";
 
 
 declare global {
@@ -23,36 +22,65 @@ declare global {
     }
 }
 
-const CodeEditor = () => {
-    const [code, setCode] = useState<string>("print('Hello World!')"); // Code from the editor
-    const [output, setOutput] = useState<string>(""); // Output of the Python code
-    const [isRunning, setIsRunning] = useState<boolean>(false); // Track if code is running
-    const cacheKey = "code-python";
+
+
+const initialCode = {
+    "python": "print('Hello World!')",
+    "javascript": "console.log('Hello World!')",
+    cpp: `#include <iostream>
+using namespace std;
+
+int main() {
+    cout << "Hello from C++!" << endl;
+    return 0;
+}`
+};
+
+interface CodeEditorProps {
+    language: "python" | "javascript" | "cpp";
+}
+
+const CodeEditor: React.FC<CodeEditorProps> = ({ language }) => {
+    const [code, setCode] = useState<string>(initialCode[language]);
+    const [output, setOutput] = useState<string>("");
+    const [isRunning, setIsRunning] = useState<boolean>(false);
+    const cacheKey = `code-${language}`;
 
     const [gridVertical, setGridVertical] = useState<boolean>(false);
+    const [miniMap, setMinimap] = useState<boolean>(false);
 
     useEffect(() => {
-        // Check and load Brython script if not already present
-        if (!document.querySelector('script[src="https://cdn.jsdelivr.net/npm/brython@3.13.0/brython.min.js"]')) {
-            const brythonScript = document.createElement("script");
-            brythonScript.src = "https://cdn.jsdelivr.net/npm/brython@3.13.0/brython.min.js";
-            brythonScript.onload = () => {
-                window.brython(); // Initialize Brython after loading
-            };
-            document.body.appendChild(brythonScript);
-        }
+        if (language === "python") {
+            if (
+                !document.querySelector(
+                    'script[src="https://cdn.jsdelivr.net/npm/brython@3.13.0/brython.min.js"]'
+                )
+            ) {
+                const brythonScript = document.createElement("script");
+                brythonScript.src =
+                    "https://cdn.jsdelivr.net/npm/brython@3.13.0/brython.min.js";
+                brythonScript.onload = () => {
+                    window.brython();
+                };
+                document.body.appendChild(brythonScript);
+            }
 
-        // Check and load Brython standard library script if not already present
-        if (!document.querySelector('script[src="https://cdn.jsdelivr.net/npm/brython@3.13.0/brython_stdlib.js"]')) {
-            const brythonStdlibScript = document.createElement("script");
-            brythonStdlibScript.src = "https://cdn.jsdelivr.net/npm/brython@3.13.0/brython_stdlib.js";
-            document.body.appendChild(brythonStdlibScript);
+            if (
+                !document.querySelector(
+                    'script[src="https://cdn.jsdelivr.net/npm/brython@3.13.0/brython_stdlib.js"]'
+                )
+            ) {
+                const brythonStdlibScript = document.createElement("script");
+                brythonStdlibScript.src =
+                    "https://cdn.jsdelivr.net/npm/brython@3.13.0/brython_stdlib.js";
+                document.body.appendChild(brythonStdlibScript);
+            }
         }
-    }, []);
+    }, [language]);
 
     useEffect(() => {
         // Get cached code from local storage
-        const cachedCode = getCache(cacheKey);
+        const cachedCode = getCache(cacheKey) as string;
         if (cachedCode) {
             setCode(cachedCode);
         } else {
@@ -66,14 +94,14 @@ const CodeEditor = () => {
         } else {
             setCache("gridVertical", `${gridVertical}`); // Set initial grid state in cache
         }
-    }, [code, gridVertical]);
+    }, [code, gridVertical, cacheKey]);
 
     const handleEditorChange = (value: string = "") => {
         setCode(value);
         setCache(cacheKey, value)
     };
 
-    const runCode = async () => {
+    const runPythonCode = async () => {
         setIsRunning(true);
         try {
             // Clear the output area
@@ -133,6 +161,74 @@ document["output-console"].innerHTML = output_str.replace("\\n", "<span class='l
         }
     };
 
+    const runJavaScriptCode = async () => {
+        setIsRunning(true);
+        try {
+            const logs: string[] = [];
+            const originalLog = console.log;
+            console.log = (...args) => {
+                logs.push(args.map(String).join(" "));
+            };
+
+            try {
+                // Safer than eval — isolates code
+                new Function(code)();
+            } catch (e) {
+                logs.push(`Error: ${(e as Error).message}`);
+            }
+
+            setOutput(logs.join("<span class='line-break'></span>") || "No output.");
+            console.log = originalLog;
+        } catch (error) {
+            setOutput(`Error: ${error}`);
+        } finally {
+            setIsRunning(false);
+        }
+    };
+
+    const runCppCode = async () => {
+        setIsRunning(true);
+        try {
+            setOutput("Compiling and running...");
+
+            const response = await fetch("https://cpp.wasm.run/api/compile", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ code }),
+            });
+
+            const result = await response.json();
+
+            if (result.stdout || result.stderr) {
+                setOutput(
+                    [result.stdout, result.stderr]
+                        .filter(Boolean)
+                        .join("<span class='line-break'></span>") || "No output."
+                );
+            } else {
+                setOutput("No output.");
+            }
+        } catch (error) {
+            setOutput(`Error: ${error}`);
+        } finally {
+            setIsRunning(false);
+        }
+    };
+
+    const runCode = () => {
+        switch (language) {
+            case "python":
+                runPythonCode();
+                break;
+            case "javascript":
+                runJavaScriptCode();
+                break;
+            case "cpp":
+                runCppCode();
+                break;
+        }
+    };
+
     function handleGridChange() {
         setGridVertical(!gridVertical);
         setCache("gridVertical", `${!gridVertical}`); // Update cache with new grid state
@@ -140,30 +236,28 @@ document["output-console"].innerHTML = output_str.replace("\\n", "<span class='l
 
     return (
         <div className="flex flex-col w-full gap-5">
-            <div className="w-full flex justify-start gap-2">
-                <Button variant="ghost" onClick={() => handleGridChange()} disabled={isRunning} className="rounded-sm h-9">
-                    {gridVertical ? <Columns2 /> : <Rows2 />}
-                </Button>
-                <Button variant="ghost" onClick={runCode} disabled={isRunning} className="rounded-sm h-9">
-                    {isRunning ? <LoaderCircle /> : <Play />}
-                </Button>
-            </div>
-
             <div className="h-screen w-full">
                 <ResizablePanelGroup
-                    direction={gridVertical ? "vertical": "horizontal"}
+                    direction={gridVertical ? "vertical" : "horizontal"}
                     className="max-w-md rounded-lg border md:min-w-full"
                 >
                     <ResizablePanel defaultSize={500}>
+                        <div className="w-full flex justify-end gap-2 pr-2 mt-2">
+                            <OptionsMenu gridVertical={gridVertical} handleGridChange={handleGridChange} miniMap={miniMap} setMinimap={setMinimap} />
+                            <Button variant="ghost" onClick={runCode} disabled={isRunning} className="rounded-sm h-9">
+                                {isRunning ? <LoaderCircle /> : <Play />}
+                            </Button>
+                        </div>
+
                         <Editor
                             key="editor"
                             height="100%"
                             width="100%"
                             theme="vs-dark"
-                            language="python"
+                            language={language}
                             value={code}
-                            defaultValue={`print("Hello World!")`}
-                            options={{ minimap: { enabled: false } }}
+                            defaultValue={initialCode[language]}
+                            options={{ minimap: { enabled: miniMap } }}
                             onChange={handleEditorChange}
                             className="rounded-lg p-2"
                         />

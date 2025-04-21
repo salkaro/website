@@ -10,7 +10,7 @@ const NavbarLinks = () => {
             <Link href="/wordfinder" className="hover:text-gray-400 transition duration-200">
                 Word Finder
             </Link>
-            <Link href="/online-timer" className="hover:text-gray-400 transition duration-200">
+            <Link href="/timer" className="hover:text-gray-400 transition duration-200">
                 Online Timer
             </Link>
             <Link href="/games" className="hover:text-gray-400 transition duration-200">
@@ -19,7 +19,7 @@ const NavbarLinks = () => {
             <Link href="/isitdown" className="hover:text-gray-400 transition duration-200">
                 Website Status
             </Link>
-            <Link href="/study-material" className="hover:text-gray-400 transition duration-200">
+            <Link href="/atlas" className="hover:text-gray-400 transition duration-200">
                 Study Materials
             </Link>
         </>

@@ -55,7 +55,7 @@ const Input: React.FC<InputProps> = ({ setStatus }) => {
                 value={url}
                 onChange={(e) => setUrl(e.target.value)}
                 onKeyDown={handleKeyDown}
-                className="text-black placeholder-gray-600 w-full px-6 py-5 text-lg transition duration-200 ease-in-out transform border-transparent rounded-full bg-gray-200 focus:border-blueGray-500 focus:bg-white focus:outline-none focus:shadow-outline focus:ring-2 ring-offset-current ring-offset-2 ring-gray-400"
+                className="text-black placeholder-gray-600 w-full px-6 py-5 text-lg transition duration-200 ease-in-out transform border-transparent rounded-full bg-gray-200 focus:border-blueGray-500 focus:bg-white focus:outline-hidden focus:shadow-outline focus:ring-2 ring-offset-current ring-offset-2 ring-gray-400"
             />
 
             <button
