@@ -11,13 +11,13 @@ import { getMarkdownContent } from './get-markdown';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { unified } from 'unified'
-import remarkGfm from 'remark-gfm'
-import remarkMath from 'remark-math'
+import rehypeStringify from 'rehype-stringify'
 import remarkRehype from 'remark-rehype'
 import rehypeKatex from 'rehype-katex'
 import remarkParse from 'remark-parse'
-import rehypeStringify from 'rehype-stringify'
+import { unified } from 'unified'
+import remarkMath from 'remark-math'
+import remarkGfm from 'remark-gfm'
 
 
 // Styles
