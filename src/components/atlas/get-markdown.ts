@@ -7,7 +7,7 @@ import { promises } from 'fs';
 export async function getMarkdownContent(level: string, subject: string, moduleName: string): Promise<string> {
     try {
         // Path to markdown file
-        const filePath = path.join(process.cwd(), 'src', 'content', 'atlas', level, subject, `${moduleName}.md`);
+        const filePath = path.join(process.cwd(), 'content', 'atlas', level, subject, `${moduleName}.md`);
 
         // Read the file content
         const fileContent = await promises.readFile(filePath, 'utf8');
