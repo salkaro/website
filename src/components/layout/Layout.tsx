@@ -9,9 +9,10 @@ import Footer from './Footer'
 import { Separator } from '../ui/separator'
 import Sidebar from './Sidebar'
 import Navbar from './Navbar'
+import AtlasFooter from '../atlas/AtlasFooter'
 
 
-const Layout = ({ className, footerClassName, children }: Readonly<{ className?: string, footerClassName?: string, children: React.ReactNode }>) => {
+const Layout = ({ className, footerClassName, isAtlasLayout, children }: Readonly<{ className?: string, footerClassName?: string, isAtlasLayout?: boolean, children: React.ReactNode }>) => {
     const [isSidebarOpen, setIsSidebarOpen] = useState(false);
     return (
         <div className="flex flex-col min-h-screen w-full">
@@ -20,7 +21,7 @@ const Layout = ({ className, footerClassName, children }: Readonly<{ className?:
             <Separator className='fixed top-16 left-0 border-dashed' />
 
             {/* Navbar */}
-            <div className='fixed top-0 left-0 w-full bg-(--color-off-black)/50 backdrop-blur z-50 xl:z-40 2xl:px-48'>
+            <div className='fixed top-0 left-0 w-full bg-(--color-off-black)/50 backdrop-blur z-50 xl:z-40 2xl:px-48 h-16'>
                 <Navbar isSidebarOpen={isSidebarOpen} setIsSidebarOpen={setIsSidebarOpen} />
             </div>
             <Sidebar isSidebarOpen={isSidebarOpen} setIsSidebarOpen={setIsSidebarOpen} />
@@ -35,7 +36,14 @@ const Layout = ({ className, footerClassName, children }: Readonly<{ className?:
             {/* Footer */}
             <div className={`${footerClassName} w-full bottom-0 mt-96 z-20`}>
                 <Separator className='left-0 border-dashed' />
-                <Footer />
+
+                {isAtlasLayout && (
+                    <AtlasFooter />
+                )}
+
+                {!isAtlasLayout && (
+                    <Footer />
+                )}
             </div>
         </div>
     )

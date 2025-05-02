@@ -19,10 +19,10 @@ interface AtlasLayoutProps {
 
 const AtlasLayout: React.FC<AtlasLayoutProps> = ({ items, headings, children, fragment, moduleType }) => {
     return (
-        <Layout className='relative !p-0' footerClassName="!mt-0">
+        <Layout className='relative !p-0' footerClassName="!mt-0" isAtlasLayout>
             <div className='flex flex-grow min-h-full w-full '>
                 {/* Sidebar */}
-                <div className="overflow-y-auto w-72 px-6 py-8 space-y-6 shrink-0 scrollbar-hide h-[calc(100vh-3.5rem)]">
+                <div className="hidden md:block overflow-y-auto w-64 xl:w-72 px-6 py-8 space-y-6 shrink-0 scrollbar-hide h-[calc(100vh-3.5rem)]">
                     {Object.entries(items).map(([level, topics]) => (
                         <div key={level}>
                             <h3 className="text-sm font-semibold mb-2 px-2">
@@ -45,7 +45,7 @@ const AtlasLayout: React.FC<AtlasLayoutProps> = ({ items, headings, children, fr
                     ))}
                 </div>
 
-                <Separator orientation="vertical" className="hidden xl:block min-h-screen w-px border-l border-border border-dashed" />
+                <Separator orientation="vertical" className="hidden md:block min-h-screen w-px border-l border-border border-dashed" />
                 
                 <div className='w-full flex flex-row'>
                     <div className='h-screen w-full overflow-y-auto scrollbar-hide'>
@@ -53,7 +53,7 @@ const AtlasLayout: React.FC<AtlasLayoutProps> = ({ items, headings, children, fr
                     </div>
 
                     {/* Table of Contents */}
-                    <div className='w-72 mt-10'>
+                    <div className='hidden md:block w-64 xl:w-72 mt-10'>
                         <h2 className='text-[14px] font-semibold mb-2'>On This Page</h2>
                         <TableOfContents headings={headings} fragment={fragment} />
                     </div>

@@ -1,6 +1,6 @@
 import { Metadata } from "next";
 
-import "@/styles/glare-text.css"
+
 import Layout from "@/components/layout/Layout";
 import Page from "@/components/home/Page";
 
@@ -38,9 +38,7 @@ export const metadata: Metadata = {
 export default function Home() {
     return (
         <Layout>
-            <div className="min-h-screen w-full flex items-center justify-center">
-                <Page />
-            </div>
+            <Page />
         </Layout>
     );
 }

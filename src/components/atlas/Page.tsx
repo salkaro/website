@@ -11,13 +11,18 @@ import { getMarkdownContent } from './get-markdown';
 import { ChevronLeft, ChevronRight } from 'lucide-react';
 import { useParams, useRouter } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { remark } from 'remark';
-import remarkGfm from 'remark-gfm';
-import html from 'remark-html';
+import { unified } from 'unified'
+import remarkGfm from 'remark-gfm'
+import remarkMath from 'remark-math'
+import remarkRehype from 'remark-rehype'
+import rehypeKatex from 'rehype-katex'
+import remarkParse from 'remark-parse'
+import rehypeStringify from 'rehype-stringify'
 
 
 // Styles
 import 'github-markdown-css';
+import 'katex/dist/katex.min.css'
 
 // Define a type for navigation items
 export type NavItem = {
@@ -114,13 +119,16 @@ const Page = () => {
                 setTocHierarchy(toc);
 
                 // Convert markdown to HTML
-                const htmlContent = await remark()
-                    .use(remarkGfm)
-                    .use(html)
+                const file = await unified()
+                    .use(remarkParse) 
+                    .use(remarkGfm)       // GitHub Flavored Markdown (tables, task lists, etc.)
+                    .use(remarkMath)      // parse $…$ and $$…$$
+                    .use(remarkRehype)    // turn the remark AST into a rehype AST
+                    .use(rehypeKatex)     // render math nodes to HTML with KaTeX
+                    .use(rehypeStringify) // serialize back to a HTML string
                     .process(markdown)
-                    .then((file) => String(file));
 
-                const htmlWithIds = addIdsToHeadings(htmlContent);
+                const htmlWithIds = addIdsToHeadings(String(file));
                 setHtmlContent(htmlWithIds);
             } catch (error) {
                 console.error('Error fetching or processing markdown:', error);
@@ -134,13 +142,13 @@ const Page = () => {
         <AtlasLayout items={items} headings={tocHierarchy} fragment={fragment} moduleType={moduleType}>
             <div className="flex flex-col gap-6 ">
                 {/* Content */}
-                <article className="markdown-body px-24" style={{ backgroundColor: 'transparent' }}>
+                <article className="markdown-body px-6 md:px-12 xl:px-24" style={{ backgroundColor: 'transparent' }}>
                     <div dangerouslySetInnerHTML={{ __html: htmlContent }} />
                 </article>
             </div>
 
             {/* Previous and Next buttons */}
-            <div className="flex mx-24 mt-12 mb-24">
+            <div className="flex mx-4 md:mx-12 xl:mx-24 mt-12 mb-24">
                 {previousModule && (
                     <div className='w-full flex justify-start'>
                         <Button
