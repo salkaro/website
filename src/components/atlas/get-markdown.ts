@@ -1,24 +1,19 @@
 "use server"
 
-import path from 'path';
 import matter from 'gray-matter';
-import { promises } from 'fs';
 
 export async function getMarkdownContent(level: string, subject: string, moduleName: string): Promise<string> {
     try {
-        // Path to markdown file
-        const filePath = path.join(process.cwd(), 'content', 'atlas', level, subject, `${moduleName}.md`);
-
-        // Read the file content
-        const fileContent = await promises.readFile(filePath, 'utf8');
-
-        // Parse front matter if needed
-        const { content } = matter(fileContent);
-
-
+        const res = await fetch(
+            `${process.env.NEXT_PUBLIC_BASE_URL ?? ''}/atlas/${level}/${subject}/${moduleName}.md`,
+            { cache: 'no-store' }
+        );
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        const raw = await res.text();
+        const { content } = matter(raw);
         return content;
-    } catch (error) {
-        console.error('Error reading markdown file:', error);
+    } catch (err) {
+        console.error('Error reading markdown file:', err);
         return '# Error\nCould not load the requested content.';
     }
 }
